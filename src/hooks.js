@@ -1,18 +1,9 @@
 import { useRef, useEffect } from 'react'
 
-export function useRoomChange (setRoom) {
-  const onHashChanged = () => {
-    console.log('hashchange', window.location.hash)
-    setRoom(document.location.hash)
-  }
-
+export function useRoom (setRoom) {
   useEffect(() => {
-    if (document.location.hash) {
-      setRoom(document.location.hash)
-    }
-
-    window.addEventListener('hashchange', onHashChanged)
-    return () => window.removeEventListener('hashchange', onHashChanged)
+    const room = new URLSearchParams(window.location.search).get('room')
+    setRoom(room)
   }, [])
 }
 
@@ -21,7 +12,7 @@ export function useWebsocket (username, gameState, receiveGameStateFromServer) {
 
   useEffect(() => {
     const host = window.location.host.replace(/:\d+/, '')
-    const room = gameState.room.replace('#', '')
+    const room = gameState.room
     ws.current = new WebSocket(`ws://${host}:7000/?id=${username}&room=${room}`)
     ws.current.onmessage = function (event) {
       if (event.data) {

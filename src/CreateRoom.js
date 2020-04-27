@@ -9,8 +9,8 @@ export default function CreateRoom () {
     ).join('')
 
   const onClick = (e) => {
-    const id = `#${generateSimpleId()}`
-    document.location.hash = id
+    const id = `${generateSimpleId()}`
+    document.location.search = `?room=${id}`
   }
 
   /* It's no required to set room on the store because of the hashchange listener will do */

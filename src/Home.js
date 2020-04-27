@@ -4,7 +4,7 @@ import GameReady from './GameReady'
 import CreateRoom from './CreateRoom'
 import RequestUsername from './RequestUsername'
 import GameWaitingToStart from './GameWaitingToStart'
-import { useWebsocket, useRoomChange } from './hooks'
+import { useWebsocket, useRoom } from './hooks'
 import { connect } from 'react-redux'
 import { setRoom, receiveGameStateFromServer } from './store/actions'
 
@@ -14,7 +14,7 @@ function HomePresentational ({
   loggedInUser,
   receiveGameStateFromServer
 }) {
-  useRoomChange(setRoom)
+  useRoom(setRoom)
 
   if (game.room) {
     return <RoomCreated
