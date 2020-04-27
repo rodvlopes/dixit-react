@@ -8,39 +8,26 @@ import { useWebsocket, useRoom } from './hooks'
 import { connect } from 'react-redux'
 import { setRoom, receiveGameStateFromServer } from './store/actions'
 
-function HomePresentational ({
-  game,
-  setRoom,
-  loggedInUser,
-  receiveGameStateFromServer
-}) {
+function HomePresentational ({ room, setRoom }) {
   useRoom(setRoom)
 
-  if (game.room) {
-    return <RoomCreated
-      loggedInUser={loggedInUser}
-      game={game}
-      receiveGameStateFromServer={receiveGameStateFromServer}
-    />
+  if (room) {
+    return <Room />
   } else {
     return <CreateRoom />
   }
 }
 
-const mapStateToProps = state => ({
-  loggedInUser: state.game.loggedInUser,
-  game: state.game
-})
-
-const mapDispatchToProps = dispatch => ({
+const Home = connect(state => ({
+  room: state.game.room
+}), dispatch => ({
   setRoom: id => dispatch(setRoom(id)),
   receiveGameStateFromServer: gs => dispatch(receiveGameStateFromServer(gs))
-})
+}))(HomePresentational)
 
-const Home = connect(mapStateToProps, mapDispatchToProps)(HomePresentational)
 export default Home
 
-function RoomCreated ({ loggedInUser, game, receiveGameStateFromServer }) {
+function RoomPresentetional ({ loggedInUser, game, receiveGameStateFromServer }) {
   const username = loggedInUser ? loggedInUser.name : 'no-login'
   useWebsocket(username, game, receiveGameStateFromServer)
 
@@ -54,3 +41,10 @@ function RoomCreated ({ loggedInUser, game, receiveGameStateFromServer }) {
     return <RequestUsername />
   }
 }
+
+const Room = connect(state => ({
+  loggedInUser: state.game.loggedInUser,
+  game: state.game
+}), dispatch => ({
+  receiveGameStateFromServer: gameState => dispatch(receiveGameStateFromServer(gameState))
+}))(RoomPresentetional)

@@ -5,7 +5,7 @@ import AppHeader from './AppHeader'
 import { startGame } from './store/actions'
 import { connect } from 'react-redux'
 
-function GameWaitingToStartPresentational ({ startGame }) {
+function GameWaitingToStartPresentational ({ startGame, numPlayers }) {
   const onClick = (e) => startGame()
   return (
     <>
@@ -14,15 +14,24 @@ function GameWaitingToStartPresentational ({ startGame }) {
         <h3>Depois que todos os jogadors estiverem presentes, pressione o botão para iniciar.</h3>
       </Box>
       <Box justifyContent="center" alignItems="center" display="flex">
-        <Button variant="contained"color="secondary"size="large" onClick={onClick}>
+        <Button
+          variant="contained" color="secondary" size="large"
+          onClick={onClick}
+          disabled={numPlayers < 3}
+        >
           Iniciar o Jogo
         </Button>
+      </Box>
+      <Box justifyContent="center" alignItems="center" display="flex">
+        Mínimo: 3 jogadores.
       </Box>
     </>
   )
 }
 
-const GameWaitingToStart = connect(null, dispatch => ({
+const GameWaitingToStart = connect(state => ({
+  numPlayers: state.game.players.filter(p => p.name).length
+}), dispatch => ({
   startGame: () => dispatch(startGame())
 }))(GameWaitingToStartPresentational)
 
