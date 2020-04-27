@@ -53,14 +53,22 @@ function game (state = defaultGameState, action) {
         room: action.id
       }
     case ASSIGN_COLOR_TO_PLAYER:
-      var colorAssignedToIndex = null
-      var players = state.players.map((p, i) => {
-        if (colorAssignedToIndex === null & p.name === null) {
-          colorAssignedToIndex = i
-          return { color: p.color, name: action.username, score: 0 }
-        }
-        return p
-      })
+      var players = state.players
+      var colorAssignedToIndex =
+        players.indexOf(
+          players.find(
+            p => (p.name || '').toLowerCase() === action.username.toLowerCase()
+          )
+        )
+      if (colorAssignedToIndex === -1) {
+        players = players.map((p, i) => {
+          if (colorAssignedToIndex === -1 & p.name === null) {
+            colorAssignedToIndex = i
+            return { color: p.color, name: action.username, score: 0 }
+          }
+          return p
+        })
+      }
       return {
         ...state,
         players,
