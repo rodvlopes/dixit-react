@@ -13,7 +13,7 @@ export default function CreateRoom () {
     document.location.hash = id
   }
 
-  /* It's no required to set roomId on the store because of the hashchange listener will do */
+  /* It's no required to set room on the store because of the hashchange listener will do */
 
   return (
     <Box justifyContent="center" alignItems="center" display="flex" height="100vh">

@@ -14,3 +14,4 @@ React, Redux, Webpack and MaterialUI.
 
 * Deal with no more players allowed in the room (max limit)
 * User name must be unique among other users in the same room
+* Deal with page refresh: Reconnect to websocket/room and recover last username

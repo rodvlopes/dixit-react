@@ -3,9 +3,10 @@ import { combineReducers } from 'redux'
 import {
   TOGGLE_PROGRESS_BOARD,
   TOGGLE_MY_CARDS,
-  SET_ROOM_ID,
+  SET_ROOM,
   ASSIGN_COLOR_TO_PLAYER,
-  START_GAME
+  START_GAME,
+  RECEIVE_GAME_STATE_FROM_SERVER
 } from './actions'
 
 function progressBoardOpen (state = false, action) {
@@ -22,13 +23,6 @@ function myCardsOpen (state = false, action) {
   } else return state
 }
 
-function roomId (state = null, action) {
-  console.log('reducer roomId', action)
-  if (action.type === SET_ROOM_ID) {
-    return action.id
-  } else return state
-}
-
 // class Player {
 //   constructor(color, name, score) {
 //     Object.assign(this, {color, name, score})
@@ -36,6 +30,7 @@ function roomId (state = null, action) {
 // }
 
 const defaultGameState = {
+  room: null,
   players: [
     { color: 'yellow', name: null, score: null },
     { color: 'red', name: null, score: null },
@@ -45,12 +40,18 @@ const defaultGameState = {
     { color: 'green', name: null, score: null }
   ],
   loggedInUser: null,
-  started: false
+  started: false,
+  serverUpdated: false
 }
 
 function game (state = defaultGameState, action) {
   console.log('reducer game', action)
   switch (action.type) {
+    case SET_ROOM:
+      return {
+        ...state,
+        room: action.id
+      }
     case ASSIGN_COLOR_TO_PLAYER:
       var colorAssignedToIndex = null
       var players = state.players.map((p, i) => {
@@ -63,10 +64,21 @@ function game (state = defaultGameState, action) {
       return {
         ...state,
         players,
-        loggedInUser: players[colorAssignedToIndex]
+        loggedInUser: players[colorAssignedToIndex],
+        serverUpdated: false
       }
     case START_GAME:
-      return { ...state, started: true }
+      return {
+        ...state,
+        started: true,
+        serverUpdated: false
+      }
+    case RECEIVE_GAME_STATE_FROM_SERVER:
+      return {
+        ...action.gameState,
+        loggedInUser: state.loggedInUser,
+        serverUpdated: true
+      }
     default:
       return state
   }
@@ -75,7 +87,6 @@ function game (state = defaultGameState, action) {
 const appReducers = combineReducers({
   progressBoardOpen,
   myCardsOpen,
-  roomId,
   game
 })
 

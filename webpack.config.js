@@ -40,5 +40,8 @@ module.exports = {
     port: '8000',
     compress: true,
     disableHostCheck: true,
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
   },
 };

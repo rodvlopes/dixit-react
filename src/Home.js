@@ -4,42 +4,53 @@ import GameReady from './GameReady'
 import CreateRoom from './CreateRoom'
 import RequestUsername from './RequestUsername'
 import GameWaitingToStart from './GameWaitingToStart'
-import { useRoomChange } from './hooks'
+import { useWebsocket, useRoomChange } from './hooks'
 import { connect } from 'react-redux'
-import { setRoomId } from './store/actions'
+import { setRoom, receiveGameStateFromServer } from './store/actions'
 
 function HomePresentational ({
-  roomId,
-  setRoomId,
+  game,
+  setRoom,
   loggedInUser,
-  gameStated
+  receiveGameStateFromServer
 }) {
-  useRoomChange(setRoomId)
+  useRoomChange(setRoom)
 
-  if (roomId) {
-    if (loggedInUser) {
-      if (gameStated) {
-        return <GameReady />
-      } else {
-        return <GameWaitingToStart />
-      }
-    } else {
-      return <RequestUsername />
-    }
+  if (game.room) {
+    return <RoomCreated
+      loggedInUser={loggedInUser}
+      game={game}
+      receiveGameStateFromServer={receiveGameStateFromServer}
+    />
   } else {
     return <CreateRoom />
   }
 }
 
 const mapStateToProps = state => ({
-  roomId: state.roomId,
   loggedInUser: state.game.loggedInUser,
-  gameStated: state.game.started
+  game: state.game
 })
 
 const mapDispatchToProps = dispatch => ({
-  setRoomId: id => dispatch(setRoomId(id))
+  setRoom: id => dispatch(setRoom(id)),
+  receiveGameStateFromServer: gs => dispatch(receiveGameStateFromServer(gs))
 })
 
 const Home = connect(mapStateToProps, mapDispatchToProps)(HomePresentational)
 export default Home
+
+function RoomCreated ({ loggedInUser, game, receiveGameStateFromServer }) {
+  const username = loggedInUser ? loggedInUser.name : 'no-login'
+  useWebsocket(username, game, receiveGameStateFromServer)
+
+  if (loggedInUser) {
+    if (game.started) {
+      return <GameReady />
+    } else {
+      return <GameWaitingToStart />
+    }
+  } else {
+    return <RequestUsername />
+  }
+}
