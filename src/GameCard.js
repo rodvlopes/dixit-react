@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     '& img': {
-      maxWidth: '100%'
+      width: '100%'
     }
   },
   cardContent: {
@@ -30,7 +30,7 @@ export default function MyCards ({ name }) {
     <Card className={classes.card}>
       { Votes }
       <CardContent className={classes.cardContent}>
-        <img src={`card${name}.jpg`} />
+        <img src={`cards/card_${name}.png`} />
       </CardContent>
     </Card>
   )

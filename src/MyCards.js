@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function MyCards ({ onClose }) {
+export default function MyCards ({ cards, onClose }) {
   const classes = useStyles()
 
   return (
@@ -26,12 +26,11 @@ export default function MyCards ({ onClose }) {
       </AppBar>
 
       <Grid container spacing={3}>
-        <Grid item key={1} xs={12} md={6}>
-          <GameCard name="001" />
-        </Grid>
-        <Grid item key={2} xs={12} md={6}>
-          <GameCard name="002" />
-        </Grid>
+        {cards.map(i =>
+          <Grid item key={i} xs={12} md={6}>
+            <GameCard name={i} />
+          </Grid>
+        )}
       </Grid>
     </>
   )

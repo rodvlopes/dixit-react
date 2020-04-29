@@ -1,6 +1,6 @@
 /* eslint 'react/prop-types' : 0 */
 import React from 'react'
-import GameReady from './GameReady'
+import GameStarted from './GameStarted'
 import CreateRoom from './CreateRoom'
 import RequestUsername from './RequestUsername'
 import GameWaitingToStart from './GameWaitingToStart'
@@ -33,7 +33,7 @@ function RoomPresentetional ({ loggedInUser, game, receiveGameStateFromServer })
 
   if (loggedInUser) {
     if (game.started) {
-      return <GameReady />
+      return <GameStarted />
     } else {
       return <GameWaitingToStart />
     }

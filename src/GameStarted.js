@@ -8,11 +8,12 @@ import ScoreBoard from './ScoreBoard'
 import { connect } from 'react-redux'
 import { toggleProgressBoard, toggleMyCards } from './store/actions'
 
-function GameReadyPresentational ({
+function GameStartedPresentational ({
   myCardsOpen,
   toggleMyCards,
   progressBoardOpen,
-  toggleProgressBoard
+  toggleProgressBoard,
+  cards
 }) {
   return (
     <>
@@ -21,9 +22,9 @@ function GameReadyPresentational ({
         openProgress={toggleProgressBoard}
       />
       <Drawer anchor='left' open={myCardsOpen} onClose={toggleMyCards}>
-        <MyCards onClose={toggleMyCards} />
+        <MyCards cards={cards} onClose={toggleMyCards} />
       </Drawer>
-      <GameBoard />
+      <GameBoard cards={[6, 7, 8, 9, 10]}/>
       <Drawer anchor='right' open={progressBoardOpen} onClose={toggleProgressBoard}>
         <ScoreBoard onClose={toggleProgressBoard} />
       </Drawer>
@@ -33,6 +34,7 @@ function GameReadyPresentational ({
 
 const mapStateToProps = state => ({
   myCardsOpen: state.myCardsOpen,
+  cards: [1, 2, 3, 4, 5, 6],
   progressBoardOpen: state.progressBoardOpen
 })
 
@@ -41,6 +43,6 @@ const mapDispatchToProps = dispatch => ({
   toggleMyCards: id => dispatch(toggleMyCards())
 })
 
-const GameReady = connect(mapStateToProps, mapDispatchToProps)(GameReadyPresentational)
+const GameStarted = connect(mapStateToProps, mapDispatchToProps)(GameStartedPresentational)
 
-export default GameReady
+export default GameStarted
