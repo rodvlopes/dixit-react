@@ -12,8 +12,7 @@ function GameStartedPresentational ({
   myCardsOpen,
   toggleMyCards,
   progressBoardOpen,
-  toggleProgressBoard,
-  cards
+  toggleProgressBoard
 }) {
   return (
     <>
@@ -22,9 +21,9 @@ function GameStartedPresentational ({
         openProgress={toggleProgressBoard}
       />
       <Drawer anchor='left' open={myCardsOpen} onClose={toggleMyCards}>
-        <MyCards cards={cards} onClose={toggleMyCards} />
+        <MyCards onClose={toggleMyCards} />
       </Drawer>
-      <GameBoard cards={[6, 7, 8, 9, 10]}/>
+      <GameBoard cards={['back', 7, 8, 9, 10]}/>
       <Drawer anchor='right' open={progressBoardOpen} onClose={toggleProgressBoard}>
         <ScoreBoard onClose={toggleProgressBoard} />
       </Drawer>
@@ -34,7 +33,6 @@ function GameStartedPresentational ({
 
 const mapStateToProps = state => ({
   myCardsOpen: state.myCardsOpen,
-  cards: [1, 2, 3, 4, 5, 6],
   progressBoardOpen: state.progressBoardOpen
 })
 

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { dealCards } from './helper'
 
 import {
   TOGGLE_PROGRESS_BOARD,
@@ -41,7 +42,9 @@ const defaultGameState = {
   ],
   loggedInUser: null,
   started: false,
-  serverUpdated: false
+  storyTeller: null,
+  serverUpdated: false,
+  cards: Array(84).fill().map((u, i) => ({ owner: null, votes: null, selected: false, index: i }))
 }
 
 function game (state = defaultGameState, action) {
@@ -72,13 +75,18 @@ function game (state = defaultGameState, action) {
       return {
         ...state,
         players,
-        loggedInUser: players[colorAssignedToIndex],
+        loggedInUser: {
+          ...players[colorAssignedToIndex],
+          index: colorAssignedToIndex
+        },
         serverUpdated: false
       }
     case START_GAME:
       return {
         ...state,
         started: true,
+        storyTeller: 0,
+        cards: dealCards(state.cards, state.players),
         serverUpdated: false
       }
     case RECEIVE_GAME_STATE_FROM_SERVER:

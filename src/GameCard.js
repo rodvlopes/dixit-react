@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     '& img': {
       width: '100%'
     }
+    // padding:
   },
   cardContent: {
     flexGrow: 1

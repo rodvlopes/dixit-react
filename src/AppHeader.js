@@ -42,14 +42,15 @@ export default function AppHeader ({ openMyCards, openProgress }) {
   )
 }
 
-function PlayersHeaderPresentational ({ players }) {
+function PlayersHeaderPresentational ({ players, storyTeller }) {
   const classes = useStyles()
 
   return (
     <div className={classes.playersHeader}>
-      {players.map(p => {
+      {players.map((p, i) => {
+        var storyTellerClass = i === storyTeller ? 'story-teller' : ''
         return (
-          <Box key={p.color} className={p.color} width={1 / 6}>
+          <Box key={p.color} className={`${p.color} ${storyTellerClass}`} width={1 / 6}>
             {p.name === null ? '-' : p.name }
           </Box>
         )
@@ -59,7 +60,8 @@ function PlayersHeaderPresentational ({ players }) {
 }
 
 const PlayersHeader = connect(state => ({
-  players: state.game.players
+  players: state.game.players,
+  storyTeller: state.game.storyTeller
 }), null)(PlayersHeaderPresentational)
 
 function UserPresentational ({ name }) {

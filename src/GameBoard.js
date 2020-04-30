@@ -7,7 +7,7 @@ export default function GameBoard ({ cards }) {
   return (
     <Grid container spacing={3}>
       {cards.map(i =>
-        <Grid item key={i} xs={12} md={6}>
+        <Grid item key={i} xs={12} md={6} lg={4}>
           <GameCard name={i} />
         </Grid>
       )}
