@@ -23,7 +23,7 @@ function GameStartedPresentational ({
       <Drawer anchor='left' open={myCardsOpen} onClose={toggleMyCards}>
         <MyCards onClose={toggleMyCards} />
       </Drawer>
-      <GameBoard cards={['back', 7, 8, 9, 10]}/>
+      <GameBoard />
       <Drawer anchor='right' open={progressBoardOpen} onClose={toggleProgressBoard}>
         <ScoreBoard onClose={toggleProgressBoard} />
       </Drawer>

@@ -33,12 +33,12 @@ function myCardsOpen (state = false, action) {
 const defaultGameState = {
   room: null,
   players: [
-    { color: 'yellow', name: null, score: null },
-    { color: 'red', name: null, score: null },
-    { color: 'blue', name: 'BIZU', score: 1 },
-    { color: 'white', name: null, score: null },
-    { color: 'black', name: null, score: null },
-    { color: 'green', name: null, score: null }
+    { index: 0, color: 'yellow', name: null, score: null },
+    { index: 1, color: 'red', name: null, score: null },
+    { index: 2, color: 'blue', name: 'BIZU', score: 1 },
+    { index: 3, color: 'white', name: null, score: null },
+    { index: 4, color: 'black', name: null, score: null },
+    { index: 5, color: 'green', name: null, score: null }
   ],
   loggedInUser: null,
   started: false,
