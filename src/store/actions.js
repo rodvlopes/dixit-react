@@ -8,6 +8,7 @@ export const SET_ROOM = 'SET_ROOM'
 export const ASSIGN_COLOR_TO_PLAYER = 'ASSIGN_COLOR_TO_PLAYER'
 export const START_GAME = 'START_GAME'
 export const RECEIVE_GAME_STATE_FROM_SERVER = 'RECEIVE_GAME_STATE_FROM_SERVER'
+export const SELECT_CARD = 'SELECT_CARD'
 
 /*
  * other constants
@@ -48,4 +49,9 @@ export function startGame () {
 export function receiveGameStateFromServer (gameState) {
   console.log('receiveGameStateFromServer', gameState)
   return { type: RECEIVE_GAME_STATE_FROM_SERVER, gameState }
+}
+
+export function selectCard (card) {
+  console.log('selectCard', card)
+  return { type: SELECT_CARD, card }
 }

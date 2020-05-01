@@ -47,8 +47,8 @@ function PlayersHeaderPresentational ({ players, storyTeller }) {
 
   return (
     <div className={classes.playersHeader}>
-      {players.map((p, i) => {
-        var storyTellerClass = i === storyTeller ? 'story-teller' : ''
+      {players.map(p => {
+        var storyTellerClass = storyTeller && p.index === storyTeller.index ? 'story-teller' : ''
         return (
           <Box key={p.color} className={`${p.color} ${storyTellerClass}`} width={1 / 6}>
             {p.name === null ? '-' : p.name }

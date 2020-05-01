@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function MyCardsPresentational ({ cards, onClose }) {
+function MyCardsPresentational ({ cards, onClose, selectionRequired }) {
   const classes = useStyles()
 
   return (
@@ -29,7 +29,10 @@ function MyCardsPresentational ({ cards, onClose }) {
       <Grid container spacing={3}>
         {cards.map(c =>
           <Grid item key={c.index} xs={12} md={6} lg={4}>
-            <GameCard name={c.index} />
+            <GameCard
+              card={c}
+              selectionRequired={selectionRequired}
+            />
           </Grid>
         )}
       </Grid>
@@ -37,8 +40,28 @@ function MyCardsPresentational ({ cards, onClose }) {
   )
 }
 
+const selectionRequiredChecker = ({ loggedInUser, storyTeller, selectedCards }) => {
+  const hasStoryTellerSelected =
+    selectedCards.filter(c => c.owner === storyTeller.index).length
+
+  const hasListenerSelected =
+    selectedCards.filter(c => c.owner === loggedInUser.index).length
+
+  const isLoggedInUserTheStoryTeller =
+    loggedInUser.index === storyTeller.index
+
+  console.log(hasStoryTellerSelected, hasListenerSelected, isLoggedInUserTheStoryTeller)
+
+  if (hasStoryTellerSelected) {
+    return isLoggedInUserTheStoryTeller ? false : !hasListenerSelected
+  } else {
+    return isLoggedInUserTheStoryTeller
+  }
+}
+
 const MyCards = connect(state => ({
-  cards: state.game.cards.filter(c => c.owner === state.game.loggedInUser.index)
+  cards: state.game.cards.filter(c => c.owner === state.game.loggedInUser.index),
+  selectionRequired: selectionRequiredChecker(state.game)
 }))(MyCardsPresentational)
 
 export default MyCards

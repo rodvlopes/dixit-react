@@ -7,7 +7,8 @@ import {
   SET_ROOM,
   ASSIGN_COLOR_TO_PLAYER,
   START_GAME,
-  RECEIVE_GAME_STATE_FROM_SERVER
+  RECEIVE_GAME_STATE_FROM_SERVER,
+  SELECT_CARD
 } from './actions'
 
 function progressBoardOpen (state = false, action) {
@@ -19,7 +20,7 @@ function progressBoardOpen (state = false, action) {
 
 function myCardsOpen (state = false, action) {
   console.log('reducer myCardsOpen', action)
-  if (action.type === TOGGLE_MY_CARDS) {
+  if (action.type === TOGGLE_MY_CARDS || action.type === SELECT_CARD) {
     return !state
   } else return state
 }
@@ -43,8 +44,12 @@ const defaultGameState = {
   loggedInUser: null,
   started: false,
   storyTeller: null,
+  listeners: [],
   serverUpdated: false,
-  cards: Array(84).fill().map((u, i) => ({ owner: null, votes: null, selected: false, index: i }))
+  cards: Array(84).fill().map((u, i) => ({ owner: null, votes: null, selected: false, index: i })),
+  selectedCards: [],
+  storyTellerSelected: false,
+  listenersSelected: false
 }
 
 function game (state = defaultGameState, action) {
@@ -60,14 +65,14 @@ function game (state = defaultGameState, action) {
       var colorAssignedToIndex =
         players.indexOf(
           players.find(
-            p => (p.name || '').toLowerCase() === action.username.toLowerCase()
+            p => p.name === action.username.toUpperCase()
           )
         )
       if (colorAssignedToIndex === -1) {
         players = players.map((p, i) => {
           if (colorAssignedToIndex === -1 & p.name === null) {
             colorAssignedToIndex = i
-            return { color: p.color, name: action.username, score: 0 }
+            return { ...p, name: action.username.toUpperCase(), score: 0 }
           }
           return p
         })
@@ -75,24 +80,42 @@ function game (state = defaultGameState, action) {
       return {
         ...state,
         players,
-        loggedInUser: {
-          ...players[colorAssignedToIndex],
-          index: colorAssignedToIndex
-        },
+        loggedInUser: players[colorAssignedToIndex],
         serverUpdated: false
       }
     case START_GAME:
+      var storyTeller = state.players[0]
+
       return {
         ...state,
         started: true,
-        storyTeller: 0,
+        storyTeller,
         cards: dealCards(state.cards, state.players),
+        listeners: state.players.filter(p => p.name && p.index !== storyTeller.index),
+        serverUpdated: false
+      }
+    case SELECT_CARD:
+      var cards = state.cards.map(c =>
+        c.index === action.card.index ? { ...action.card, selected: true } : c
+      )
+      var selectedCards = cards.filter(c => c.selected)
+
+      return {
+        ...state,
+        cards,
+        selectedCards,
+        storyTellerSelected: selectedCards.filter(c =>
+          c.owner === state.storyTeller.index
+        ).length,
+        listenersSelected: selectedCards.filter(c =>
+          c.owner !== state.storyTeller.index
+        ).length,
         serverUpdated: false
       }
     case RECEIVE_GAME_STATE_FROM_SERVER:
       return {
         ...action.gameState,
-        loggedInUser: state.loggedInUser,
+        loggedInUser: state.loggedInUser, // TODO: remove from shared game state
         serverUpdated: true
       }
     default:
