@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { dealCards } from './helper'
+import { shuffle, dealCards } from './helper'
 
 import {
   TOGGLE_PROGRESS_BOARD,
@@ -8,7 +8,8 @@ import {
   ASSIGN_COLOR_TO_PLAYER,
   START_GAME,
   RECEIVE_GAME_STATE_FROM_SERVER,
-  SELECT_CARD
+  SELECT_CARD,
+  VOTE_CARD
 } from './actions'
 
 function progressBoardOpen (state = false, action) {
@@ -46,7 +47,7 @@ const defaultGameState = {
   storyTeller: null,
   listeners: [],
   serverUpdated: false,
-  cards: Array(84).fill().map((u, i) => ({ owner: null, votes: null, selected: false, index: i })),
+  cards: Array(84).fill().map((u, i) => ({ owner: null, votes: [], selected: false, index: i })),
   selectedCards: [],
   storyTellerSelected: false,
   listenersSelected: false
@@ -98,7 +99,7 @@ function game (state = defaultGameState, action) {
       var cards = state.cards.map(c =>
         c.index === action.card.index ? { ...action.card, selected: true } : c
       )
-      var selectedCards = cards.filter(c => c.selected)
+      var selectedCards = shuffle(cards.filter(c => c.selected))
 
       return {
         ...state,
@@ -109,9 +110,21 @@ function game (state = defaultGameState, action) {
         ).length,
         listenersSelected: selectedCards.filter(c =>
           c.owner !== state.storyTeller.index
-        ).length,
+        ).length === state.listeners.length,
         serverUpdated: false
       }
+    case VOTE_CARD:
+      var card = action.card
+      selectedCards = state.selectedCards.map(c =>
+        c.index === action.card.index ? { ...card, votes: [...card.votes, action.voter] } : c
+      )
+
+      return {
+        ...state,
+        selectedCards,
+        serverUpdated: false
+      }
+
     case RECEIVE_GAME_STATE_FROM_SERVER:
       return {
         ...action.gameState,

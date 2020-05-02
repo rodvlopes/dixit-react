@@ -9,6 +9,7 @@ export const ASSIGN_COLOR_TO_PLAYER = 'ASSIGN_COLOR_TO_PLAYER'
 export const START_GAME = 'START_GAME'
 export const RECEIVE_GAME_STATE_FROM_SERVER = 'RECEIVE_GAME_STATE_FROM_SERVER'
 export const SELECT_CARD = 'SELECT_CARD'
+export const VOTE_CARD = 'VOTE_CARD'
 
 /*
  * other constants
@@ -54,4 +55,9 @@ export function receiveGameStateFromServer (gameState) {
 export function selectCard (card) {
   console.log('selectCard', card)
   return { type: SELECT_CARD, card }
+}
+
+export function voteCard (card, voter) {
+  console.log('voteCard', card, voter)
+  return { type: VOTE_CARD, card, voter }
 }

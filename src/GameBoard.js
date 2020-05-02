@@ -2,7 +2,7 @@
 import React from 'react'
 import GameCard from './GameCard'
 import { Grid, Box, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core'
-import DraftsIcon from '@material-ui/icons/Drafts'
+import PersonIcon from '@material-ui/icons/AccountCircle'
 import { connect } from 'react-redux'
 
 function GameBoardPresentional ({
@@ -18,7 +18,7 @@ function GameBoardPresentional ({
   console.log('noVoteListeners', listeners, noVoteListeners)
   if (storyTellerSelected) {
     if (listenersSelected) {
-      return <GameBoardElection cards={selectedCards} />
+      return <GameBoardElection cards={selectedCards} listeners={listeners} />
     } else {
       return <WaitingListeners players={noVoteListeners} />
     }
@@ -27,12 +27,22 @@ function GameBoardPresentional ({
   }
 }
 
-function GameBoardElection ({ cards }) {
+function GameBoardElectionPresentational ({ cards, listeners, electionRequired }) {
+  console.log('GameBoardElectionPresentational', cards.map(c => c.votes))
+
+  const votesNum = cards.reduce((acc, c) => acc + c.votes.length, 0)
+  const electionFinished = votesNum - listeners.length === 0
+  const width = electionFinished ? 6 : 12
+
   return (
     <Grid container spacing={3}>
       {cards.map(c =>
-        <Grid item key={c.index} xs={12} md={6} lg={4}>
-          <GameCard name={c} />
+        <Grid item key={c.index} xs={width} md={6} lg={4}>
+          <GameCard
+            card={c}
+            electionRequired={electionRequired}
+            revealVotes={electionFinished}
+          />
         </Grid>
       )}
     </Grid>
@@ -60,7 +70,7 @@ function WaitingListeners ({ players }) {
           {players.map(p =>
             <ListItem key={p.index}>
               <ListItemIcon>
-                <DraftsIcon style={{ color: p.color }} />
+                <PersonIcon style={{ color: p.color }} />
               </ListItemIcon>
               <ListItemText primary={p.name} />
             </ListItem>
@@ -70,6 +80,24 @@ function WaitingListeners ({ players }) {
     </>
   )
 }
+
+const electionRequiredChecker = ({ loggedInUser, storyTeller, selectedCards, players }) => {
+  const isAllCardsSelected = selectedCards.length === players.filter(p => p.name).length
+
+  const isLoggedInUserTheStoryTeller =
+    loggedInUser.index === storyTeller.index
+
+  const hasLoggedInUserVoted = selectedCards
+    .filter(c => c.votes.find(v => v.index === loggedInUser.index)).length
+
+  console.log('electionRequiredChecker', isAllCardsSelected, isLoggedInUserTheStoryTeller)
+
+  return isLoggedInUserTheStoryTeller ? false : isAllCardsSelected && !hasLoggedInUserVoted
+}
+
+const GameBoardElection = connect(state => ({
+  electionRequired: electionRequiredChecker(state.game)
+}))(GameBoardElectionPresentational)
 
 const GameBoard = connect(state => ({
   selectedCards: state.game.selectedCards,

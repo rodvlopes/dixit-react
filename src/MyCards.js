@@ -50,8 +50,6 @@ const selectionRequiredChecker = ({ loggedInUser, storyTeller, selectedCards }) 
   const isLoggedInUserTheStoryTeller =
     loggedInUser.index === storyTeller.index
 
-  console.log(hasStoryTellerSelected, hasListenerSelected, isLoggedInUserTheStoryTeller)
-
   if (hasStoryTellerSelected) {
     return isLoggedInUserTheStoryTeller ? false : !hasListenerSelected
   } else {

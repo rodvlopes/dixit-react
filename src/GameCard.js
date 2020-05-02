@@ -1,8 +1,9 @@
 /* eslint 'react/prop-types' : 0 */
 import React from 'react'
-import { Card, CardContent, CardHeader, CardActions, Button } from '@material-ui/core'
+import { Card, CardContent, CardActions, Button } from '@material-ui/core'
+import PersonIcon from '@material-ui/icons/AccountCircle'
 import { connect } from 'react-redux'
-import { selectCard } from './store/actions'
+import { selectCard, voteCard } from './store/actions'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,15 +24,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function GameCardPresentational ({ card, selectionRequired, selectCard }) {
+function GameCardPresentational ({
+  card,
+  selectionRequired,
+  electionRequired,
+  revealVotes,
+  selectCard,
+  voteCard,
+  voter
+}) {
   const classes = useStyles()
-  const votes = false
-  let Votes = null
+  let ElectionAction = null
   let SelectAction = null
-
-  if (votes) {
-    Votes = <CardHeader title="votos" />
-  }
+  let Votes = null
 
   if (selectionRequired) {
     SelectAction =
@@ -40,20 +45,38 @@ function GameCardPresentational ({ card, selectionRequired, selectCard }) {
       </CardActions>
   }
 
+  if (electionRequired) {
+    ElectionAction =
+      <CardActions className={classes.cardActions}>
+        <Button variant="outlined" size="small" onClick={ev => voteCard(card, voter)}>Votar Nesta</Button>
+      </CardActions>
+  }
+
+  if (revealVotes) {
+    Votes =
+      <CardActions className={classes.cardActions}>
+        {card.votes.map(v => <PersonIcon key={v.index} style={{ color: v.color }} />)}
+      </CardActions>
+  }
+
   return (
     <Card className={classes.card}>
-      { Votes }
       <CardContent className={classes.cardContent}>
         <img src={`cards/card_${card.index}.png`} />
       </CardContent>
       { SelectAction }
+      { ElectionAction }
+      { Votes }
     </Card>
   )
 }
 
-const GameCard = connect(null,
-  dispatch => ({
-    selectCard: card => dispatch(selectCard(card))
-  }))(GameCardPresentational)
+const GameCard = connect(state => ({
+  voter: state.game.loggedInUser
+}),
+dispatch => ({
+  selectCard: card => dispatch(selectCard(card)),
+  voteCard: (card, voter) => dispatch(voteCard(card, voter))
+}))(GameCardPresentational)
 
 export default GameCard
