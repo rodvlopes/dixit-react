@@ -1,10 +1,11 @@
 {
   "name": "dixit-react",
   "version": "0.1.0",
-  "description": "A Dixit game implementation on React",
+  "description": "A web version of Dixit board game implemented using React/Redux/Websockets",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server -d --mode development --open --hot",
+    "start:ws": "node server/ws.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },

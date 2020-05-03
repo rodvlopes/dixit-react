@@ -1,4 +1,4 @@
-# DiXit Game
+# React DiXit Game
 
 This is game is an adaptation of the real DiXit game to the mobile web. 
 
@@ -6,11 +6,19 @@ This is game is an adaptation of the real DiXit game to the mobile web.
 
 To continue playing DiXit with my friends and family during the quarantine period of the COVID-19. Another motivation is to put in practice some _React_ developing skills. 
 
+## Disclaimer
+
+This is a study project and improvents are required in many ways.
+
+## Architeture
+
+* TODO
+
 ## Dev Stack
 
 React, Redux, Webpack and MaterialUI.
 
-## TO DO
+## TODO
 
 * Remove button to cast vote for your own card
 * Detect websocket disconnection and reconnect
