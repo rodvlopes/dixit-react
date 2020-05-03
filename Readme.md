@@ -1,6 +1,8 @@
 # React DiXit Game
 
-This is game is an adaptation of the real DiXit game to the mobile web. 
+This game is an adaptation of the board game to the mobile web. 
+
+![cat](./public/card_43.png)
 
 ## Motivation 
 
@@ -16,7 +18,7 @@ This is a study project and improvents are required in many ways.
 
 ## Dev Stack
 
-React, Redux, Webpack and MaterialUI.
+React, Redux, Webpack, Websockts and MaterialUI.
 
 ## TODO
 
@@ -28,4 +30,4 @@ React, Redux, Webpack and MaterialUI.
 * Deal with no more players allowed in the room (max limit)
 * Deny new players after game has started
 * User name must be unique among other users in the same room
-* -Highlight story teller card after reveal-
+* ~Highlight story teller card after reveal~

@@ -1,10 +1,11 @@
 const path = require( 'path' );
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/App',
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js'
+    filename: '[name].[hash].bundle.js'
   },
   module: {
     rules: [
@@ -44,4 +45,9 @@ module.exports = {
       '/api': 'http://localhost:3000'
     }
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+    })
+  ],
 };

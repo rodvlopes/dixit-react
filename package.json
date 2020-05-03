@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server -d --mode development --open --hot",
     "start:ws": "node server/ws.js",
+    "build": "webpack -p",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -40,6 +41,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-standard": "^4.0.1",
+    "html-webpack-plugin": "^4.3.0",
     "jest": "^25.5.2",
     "style-loader": "^1.1.3",
     "stylus": "^0.54.7",
