@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { shuffle, dealCards } from './helper'
+import { shuffle, dealCards, calcRoundScore, discardSelectedAndDealMore } from './helper'
 
 import {
   TOGGLE_PROGRESS_BOARD,
@@ -9,7 +9,8 @@ import {
   START_GAME,
   RECEIVE_GAME_STATE_FROM_SERVER,
   SELECT_CARD,
-  VOTE_CARD
+  VOTE_CARD,
+  NEXT_ROUND
 } from './actions'
 
 function progressBoardOpen (state = false, action) {
@@ -37,7 +38,7 @@ const defaultGameState = {
   players: [
     { index: 0, color: 'yellow', name: null, score: null },
     { index: 1, color: 'red', name: null, score: null },
-    { index: 2, color: 'blue', name: 'BIZU', score: 1 },
+    { index: 2, color: 'blue', name: 'B', score: 1 },
     { index: 3, color: 'white', name: null, score: null },
     { index: 4, color: 'black', name: null, score: null },
     { index: 5, color: 'green', name: null, score: null }
@@ -47,7 +48,9 @@ const defaultGameState = {
   storyTeller: null,
   listeners: [],
   serverUpdated: false,
-  cards: Array(84).fill().map((u, i) => ({ owner: null, votes: [], selected: false, index: i })),
+  cards: Array(84).fill().map((u, i) =>
+    ({ owner: null, votes: [], selected: false, index: i, discarded: false })
+  ),
   selectedCards: [],
   storyTellerSelected: false,
   listenersSelected: false
@@ -122,6 +125,26 @@ function game (state = defaultGameState, action) {
       return {
         ...state,
         selectedCards,
+        serverUpdated: false
+      }
+
+    case NEXT_ROUND:
+      var prevRndScore = calcRoundScore(state.players, state.selectedCards, state.storyTeller)
+      players = state.players.map(p => {
+        const prevS = prevRndScore[p.index] === undefined ? 0 : prevRndScore[p.index]
+        return { ...p, score: p.score + prevS }
+      })
+      storyTeller = state.players[(state.storyTeller.index + 1) % players.filter(p => p.name).length]
+
+      return {
+        ...state,
+        cards: discardSelectedAndDealMore(state),
+        selectedCards: [],
+        storyTeller,
+        players,
+        listeners: players.filter(p => p.name && p.index !== storyTeller.index),
+        storyTellerSelected: false,
+        listenersSelected: false,
         serverUpdated: false
       }
 

@@ -10,6 +10,7 @@ export const START_GAME = 'START_GAME'
 export const RECEIVE_GAME_STATE_FROM_SERVER = 'RECEIVE_GAME_STATE_FROM_SERVER'
 export const SELECT_CARD = 'SELECT_CARD'
 export const VOTE_CARD = 'VOTE_CARD'
+export const NEXT_ROUND = 'NEXT_ROUND'
 
 /*
  * other constants
@@ -18,10 +19,6 @@ export const VOTE_CARD = 'VOTE_CARD'
 /*
  * action creators
  */
-
-// export function addTodo(text) {
-//   return { type: ADD_TODO, text }
-// }
 
 export function toggleProgressBoard () {
   return { type: TOGGLE_PROGRESS_BOARD }
@@ -60,4 +57,9 @@ export function selectCard (card) {
 export function voteCard (card, voter) {
   console.log('voteCard', card, voter)
   return { type: VOTE_CARD, card, voter }
+}
+
+export function nextRound (previousRoundScores) {
+  console.log('nextRound', previousRoundScores)
+  return { type: NEXT_ROUND, previousRoundScores }
 }

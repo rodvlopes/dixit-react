@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { selectCard, voteCard } from './store/actions'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(({ palette }) => ({
   card: {
     height: '100%',
     display: 'flex',
@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
     '& img': {
       width: '100%'
     }
+  },
+  cardSt: {
+    // border: '2px solid',
+    // borderColor: palette.primary[palette.type],
+    animation: 'glowing 2000ms infinite'
   },
   cardContent: {
     flexGrow: 1,
@@ -28,6 +33,7 @@ function GameCardPresentational ({
   card,
   selectionRequired,
   electionRequired,
+  storyTeller,
   revealVotes,
   selectCard,
   voteCard,
@@ -37,6 +43,7 @@ function GameCardPresentational ({
   let ElectionAction = null
   let SelectAction = null
   let Votes = null
+  const isStoryTellerCard = card.owner === storyTeller.index
 
   if (selectionRequired) {
     SelectAction =
@@ -54,13 +61,13 @@ function GameCardPresentational ({
 
   if (revealVotes) {
     Votes =
-      <CardActions className={classes.cardActions}>
+      <CardActions>
         {card.votes.map(v => <PersonIcon key={v.index} style={{ color: v.color }} />)}
       </CardActions>
   }
 
   return (
-    <Card className={classes.card}>
+    <Card className={`${classes.card} ${isStoryTellerCard && revealVotes ? classes.cardSt : ''}`}>
       <CardContent className={classes.cardContent}>
         <img src={`cards/card_${card.index}.png`} />
       </CardContent>
@@ -72,7 +79,8 @@ function GameCardPresentational ({
 }
 
 const GameCard = connect(state => ({
-  voter: state.game.loggedInUser
+  voter: state.game.loggedInUser,
+  storyTeller: state.game.storyTeller
 }),
 dispatch => ({
   selectCard: card => dispatch(selectCard(card)),

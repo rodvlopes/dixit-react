@@ -10,16 +10,6 @@ import { connect } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1
-  },
-  playersHeader: {
-    display: 'flex',
-    '&>div': {
-      borderRadius: '2px',
-      margin: '2px',
-      padding: '2px',
-      textTransform: 'uppercase',
-      textAlign: 'center'
-    }
   }
 }))
 
@@ -43,19 +33,17 @@ export default function AppHeader ({ openMyCards, openProgress }) {
 }
 
 function PlayersHeaderPresentational ({ players, storyTeller }) {
-  const classes = useStyles()
-
   return (
-    <div className={classes.playersHeader}>
+    <Box display="flex">
       {players.map(p => {
         var storyTellerClass = storyTeller && p.index === storyTeller.index ? 'story-teller' : ''
         return (
-          <Box key={p.color} className={`${p.color} ${storyTellerClass}`} width={1 / 6}>
+          <Box key={p.color} className={`player ${p.color} ${storyTellerClass}`} width={1 / 6}>
             {p.name === null ? '-' : p.name }
           </Box>
         )
       })}
-    </div>
+    </Box>
   )
 }
 

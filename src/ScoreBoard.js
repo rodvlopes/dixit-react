@@ -30,7 +30,7 @@ function ScoreBoardPresentational ({ onClose, players }) {
         {players.map(p => {
           return (
             <Grid item key={p.color} xs={2}>
-              <Box className={p.color} p={2}>
+              <Box className={`player ${p.color}`} p={2}>
                 {p.score === null ? '-' : p.score }
               </Box>
             </Grid>
