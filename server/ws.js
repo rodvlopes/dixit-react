@@ -1,7 +1,7 @@
 const WebSocket = require('ws')
 var url = require('url')
 
-const wss = new WebSocket.Server({ port: 7000 })
+const wss = new WebSocket.Server({ port: 7000, host: '0.0.0.0' })
 
 let DEBUG = true
 
