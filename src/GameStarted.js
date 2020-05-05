@@ -31,16 +31,12 @@ function GameStartedPresentational ({
   )
 }
 
-const mapStateToProps = state => ({
-  myCardsOpen: state.myCardsOpen,
-  progressBoardOpen: state.progressBoardOpen
-})
-
-const mapDispatchToProps = dispatch => ({
-  toggleProgressBoard: id => dispatch(toggleProgressBoard()),
-  toggleMyCards: id => dispatch(toggleMyCards())
-})
-
-const GameStarted = connect(mapStateToProps, mapDispatchToProps)(GameStartedPresentational)
+const GameStarted = connect(
+  state => state.ui,
+  dispatch => ({
+    toggleProgressBoard: id => dispatch(toggleProgressBoard()),
+    toggleMyCards: id => dispatch(toggleMyCards())
+  })
+)(GameStartedPresentational)
 
 export default GameStarted

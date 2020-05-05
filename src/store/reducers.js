@@ -13,18 +13,30 @@ import {
   NEXT_ROUND
 } from './actions'
 
-function progressBoardOpen (state = false, action) {
-  console.log('reducer progressBoardOpen', action)
-  if (action.type === TOGGLE_PROGRESS_BOARD) {
-    return !state
-  } else return state
+const defaultUiState = {
+  progressBoardOpen: false,
+  myCardsOpen: false
 }
 
-function myCardsOpen (state = false, action) {
-  console.log('reducer myCardsOpen', action)
-  if (action.type === TOGGLE_MY_CARDS || action.type === SELECT_CARD) {
-    return !state
-  } else return state
+function ui (state = defaultUiState, action) {
+  console.log('reducer progressBoardOpen', action)
+
+  switch (action.type) {
+    case TOGGLE_PROGRESS_BOARD:
+      return {
+        ...state,
+        progressBoardOpen: !state.progressBoardOpen
+      }
+
+    case TOGGLE_MY_CARDS:
+    case SELECT_CARD:
+      return {
+        ...state,
+        myCardsOpen: !state.myCardsOpen
+      }
+    default:
+      return state
+  }
 }
 
 // class Player {
@@ -160,8 +172,7 @@ function game (state = defaultGameState, action) {
 }
 
 const appReducers = combineReducers({
-  progressBoardOpen,
-  myCardsOpen,
+  ui,
   game
 })
 
