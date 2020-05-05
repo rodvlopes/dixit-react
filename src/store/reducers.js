@@ -38,7 +38,7 @@ const defaultGameState = {
   players: [
     { index: 0, color: 'yellow', name: null, score: null },
     { index: 1, color: 'red', name: null, score: null },
-    { index: 2, color: 'blue', name: 'B', score: 1 },
+    { index: 2, color: 'blue', name: null, score: null },
     { index: 3, color: 'white', name: null, score: null },
     { index: 4, color: 'black', name: null, score: null },
     { index: 5, color: 'green', name: null, score: null }
