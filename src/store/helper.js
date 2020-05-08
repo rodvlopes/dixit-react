@@ -1,3 +1,5 @@
+/* eslint 'no-prototype-builtins' : 0 */
+
 export function shuffle (arr) {
   return arr.sort(() => Math.random() - 0.5)
 }
@@ -75,4 +77,14 @@ export function discardSelectedAndDealMore ({ cards, selectedCards }) {
     .map(c => {
       return dealt[c.index] === undefined ? c : { ...c, owner: dealt[c.index] }
     })
+}
+
+export function createReducer (initialState, handlers) {
+  return function reducer (state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action)
+    } else {
+      return state
+    }
+  }
 }
