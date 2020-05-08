@@ -22,12 +22,12 @@ React, Redux, Webpack, Websockts and MaterialUI.
 
 ## TODO
 
-* Remove button to cast vote for your own card
 * Detect websocket disconnection and reconnect
 * Implement end of match condition
 * Recover last username
 * Deal with no more players allowed in the room (max limit)
 * Deny new players after game has started
 * User name must be unique among other users in the same room
+* ~Remove button to cast vote for your own card~
 * ~Deploy~
 * ~Highlight story teller card after reveal~

@@ -44,6 +44,7 @@ function GameCardPresentational ({
   let SelectAction = null
   let Votes = null
   const isStoryTellerCard = card.owner === storyTeller.index
+  const isOwnCard = card.owner === voter.index
 
   if (selectionRequired) {
     SelectAction =
@@ -52,7 +53,7 @@ function GameCardPresentational ({
       </CardActions>
   }
 
-  if (electionRequired) {
+  if (electionRequired && !isOwnCard) {
     ElectionAction =
       <CardActions className={classes.cardActions}>
         <Button variant="outlined" size="small" onClick={ev => voteCard(card, voter)}>Votar Nesta</Button>
