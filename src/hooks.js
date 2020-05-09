@@ -7,9 +7,10 @@ export function useRoom (setRoom) {
   }, [])
 }
 
-export function useWebsocket (username, gameState, receiveGameStateFromServer) {
+export function useSyncServerState (username, gameState, receiveGameStateFromServer) {
   const ws = useRef(null)
   const [reconnectCount, setReconnectCount] = useState(0)
+  const [serverReady, setServerReady] = useState(false)
   const reconnect = () => setReconnectCount((prev) => prev + 1)
 
   useEffect(() => {
@@ -18,10 +19,14 @@ export function useWebsocket (username, gameState, receiveGameStateFromServer) {
     console.log('Opening ws connections', username, room, reconnectCount)
     ws.current = new WebSocket(`ws://${host}:7000/?id=${username}&room=${room}`)
 
-    ws.current.onmessage = function (e) {
-      if (e.data) {
-        console.log('GameState received:', e.data)
-        const receivedGameState = JSON.parse(e.data)
+    ws.current.onmessage = function ({ data }) {
+      if (!serverReady) {
+        setServerReady(true)
+      }
+
+      if (typeof (data) === 'string') {
+        console.log('GameState received from server.')
+        const receivedGameState = JSON.parse(data)
         receiveGameStateFromServer(receivedGameState)
       } else {
         console.log('The server sent a empty GameState.')
@@ -29,7 +34,8 @@ export function useWebsocket (username, gameState, receiveGameStateFromServer) {
     }
 
     ws.current.onclose = function (e) {
-      console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason, reconnectCount)
+      setServerReady(false)
+      console.log('Socket is closed. Reconnect will be attempted in 2 seconds.', e.reason, reconnectCount)
       setTimeout(() => reconnect(), 2000)
     }
 
@@ -59,5 +65,5 @@ export function useWebsocket (username, gameState, receiveGameStateFromServer) {
     }
   }, [username])
 
-  return null
+  return serverReady
 }

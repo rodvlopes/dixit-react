@@ -1,6 +1,6 @@
 # React DiXit Game
 
-This game is an adaptation of the board game to the mobile web. 
+This game is an adaptation of the board game Dixit to the mobile web. 
 
 ![cat](./public/cards/card_43.png)
 
@@ -22,11 +22,13 @@ React, Redux, Webpack, Websockts and MaterialUI.
 
 ## TODO
 
+* Deal with no more players allowed in the room (max limit)
 * Implement end of match condition
 * Recover last username
-* Deal with no more players allowed in the room (max limit)
 * Deny new players after game has started
 * User name must be unique among other users in the same room
+* Internationalize game texts
+* Add prettier plugin
 * ~Detect websocket disconnection and reconnect~
 * ~Remove button to cast vote for your own card~
 * ~Deploy~

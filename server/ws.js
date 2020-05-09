@@ -15,7 +15,7 @@ wss.on('connection', function connection(ws, req) {
 
   INFO && console.log('new client connected client [%s] at room [%s]', id, room)
 
-  lastState[room] && ws.send(lastState[room])
+  ws.send(lastState[room]) //send even if it's undefined
 
   ws.on('message', function incoming(message) {
     INFO && console.log('received message from [%s] at room [%s]', ws.id, ws.room)

@@ -4,7 +4,8 @@ import GameStarted from './GameStarted'
 import CreateRoom from './CreateRoom'
 import RequestUsername from './RequestUsername'
 import GameWaitingToStart from './GameWaitingToStart'
-import { useWebsocket, useRoom } from './hooks'
+import WaitingServer from './WaitingServer'
+import { useSyncServerState, useRoom } from './hooks'
 import { connect } from 'react-redux'
 import { setRoom, receiveGameStateFromServer } from './store/actions'
 
@@ -29,7 +30,12 @@ export default Home
 
 function RoomPresentetional ({ loggedInUser, game, receiveGameStateFromServer }) {
   const username = loggedInUser ? loggedInUser.name : 'no-login'
-  useWebsocket(username, game, receiveGameStateFromServer)
+  const serverReady =
+    useSyncServerState(username, game, receiveGameStateFromServer)
+
+  if (!serverReady) {
+    return <WaitingServer />
+  }
 
   if (loggedInUser) {
     if (game.started) {
