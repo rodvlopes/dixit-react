@@ -1,7 +1,7 @@
 /* eslint 'react/prop-types' : 0 */
 import React from 'react'
 import './global.styl'
-import { AppBar, Toolbar, IconButton, Box } from '@material-ui/core'
+import { AppBar, Toolbar, Button, Box } from '@material-ui/core'
 import RecentActorsIcon from '@material-ui/icons/RecentActors'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,6 +10,12 @@ import { connect } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1
+  },
+  thinBtn: {
+    minWidth: 0,
+    '& .MuiButton-startIcon': {
+      marginRight: 0
+    }
   }
 }))
 
@@ -19,13 +25,21 @@ export default function AppHeader ({ openMyCards, openProgress }) {
   return (
     <AppBar position="relative">
       <Toolbar>
-        <IconButton onClick={openMyCards} disabled={!openMyCards}>
-          <RecentActorsIcon className={classes.icon} />
-        </IconButton>
-        <h4 className={classes.title}> DiXit <User /></h4>
-        <IconButton onClick={openProgress} disabled={!openProgress}>
-          <DashboardIcon className={classes.icon} />
-        </IconButton>
+        <Button
+          className={classes.thinBtn}
+          variant="contained"
+          onClick={openMyCards}
+          disabled={!openMyCards}
+          startIcon={<RecentActorsIcon />}>{''}
+        </Button>
+        <Box flexGrow={1} textAlign="center"><User /></Box>
+        <Button
+          className={classes.thinBtn}
+          variant="contained"
+          onClick={openProgress}
+          disabled={!openProgress}
+          startIcon={<DashboardIcon />}>{''}
+        </Button>
       </Toolbar>
       <PlayersHeader />
     </AppBar>
