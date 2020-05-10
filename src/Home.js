@@ -5,6 +5,7 @@ import CreateRoom from './CreateRoom'
 import RequestUsername from './RequestUsername'
 import GameWaitingToStart from './GameWaitingToStart'
 import WaitingServer from './WaitingServer'
+import EndOfMatch from './EndOfMatch'
 import { useSyncServerState, useRoom } from './hooks'
 import { connect } from 'react-redux'
 import { setRoom, receiveGameStateFromServer } from './store/actions'
@@ -37,7 +38,9 @@ function RoomPresentetional ({ loggedInUser, game, receiveGameStateFromServer })
     return <WaitingServer />
   }
 
-  if (loggedInUser) {
+  if (game.endOfMatch) {
+    return <EndOfMatch />
+  } else if (loggedInUser) {
     if (game.started) {
       return <GameStarted />
     } else {

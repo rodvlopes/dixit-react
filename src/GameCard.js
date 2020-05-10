@@ -18,7 +18,8 @@ const useStyles = makeStyles(({ palette }) => ({
   cardSt: {
     // border: '2px solid',
     // borderColor: palette.primary[palette.type],
-    animation: 'glowing 2000ms infinite'
+    animation: 'glowing 1s infinite',
+    animationDirection: 'alternate'
   },
   cardContent: {
     flexGrow: 1,

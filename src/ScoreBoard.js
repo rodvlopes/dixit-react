@@ -26,18 +26,24 @@ function ScoreBoardPresentational ({ onClose, players }) {
         </Toolbar>
       </AppBar>
 
-      <Grid container spacing={2}>
-        {players.map(p => {
-          return (
-            <Grid item key={p.color} xs={2}>
-              <Box className={`player ${p.color}`} p={2}>
-                {p.score === null ? '-' : p.score }
-              </Box>
-            </Grid>
-          )
-        })}
-      </Grid>
+      <ScoreGrid players={players} />
     </>
+  )
+}
+
+export function ScoreGrid ({ players }) {
+  return (
+    <Grid container>
+      {players.map(p => {
+        return (
+          <Grid item key={p.color} xs={2}>
+            <Box className={`player ${p.color}`} p={2}>
+              {p.score === null ? '-' : p.score }
+            </Box>
+          </Grid>
+        )
+      })}
+    </Grid>
   )
 }
 

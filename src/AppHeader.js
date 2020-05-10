@@ -66,6 +66,8 @@ const PlayersHeader = connect(state => ({
   storyTeller: state.game.storyTeller
 }), null)(PlayersHeaderPresentational)
 
+export { PlayersHeader }
+
 function UserPresentational ({ name }) {
   return (
     <span>{name}</span>

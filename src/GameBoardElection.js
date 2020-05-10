@@ -15,10 +15,7 @@ function GameBoardElectionPresentational ({ cards, listeners, electionRequired, 
   return (
     <>
       <Collapse in={electionFinished}>
-        <div>
-          <RoundScore cards={cards}/>
-          <NextRoundButton onClick={e => nextRound()} />
-        </div>
+        <RoundScore cards={cards}/>
       </Collapse>
       <Grid container spacing={2}>
         {cards.map(c =>
@@ -35,25 +32,31 @@ function GameBoardElectionPresentational ({ cards, listeners, electionRequired, 
   )
 }
 
-function RoundScorePresentional ({ players, cards, storyTeller }) {
+function RoundScorePresentional ({ players, cards, storyTeller, nextRound }) {
   const score = calcRoundScore(players, cards, storyTeller)
 
   return (
-    <Box display="flex" flexGrow={1}>
-      {players.map(p => {
-        return (
-          <Box key={p.color} className={`player ${p.color}`} width={1 / 6}>
-            {score[p.index] !== undefined ? `+${score[p.index]}` : ''}
-          </Box>
-        )
-      })}
-    </Box>
+    <div>
+      <Box display="flex" flexGrow={1}>
+        {players.map(p => {
+          return (
+            <Box key={p.color} className={`player ${p.color}`} width={1 / 6}>
+              {score[p.index] !== undefined ? `+${score[p.index]}` : ''}
+            </Box>
+          )
+        })}
+      </Box>
+      <NextRoundButton onClick={e => nextRound()} />
+    </div>
   )
 }
 
 const RoundScore = connect(state => ({
   players: state.game.players,
   storyTeller: state.game.storyTeller
+}),
+dispatch => ({
+  nextRound: () => dispatch(nextRound())
 }))(RoundScorePresentional)
 
 function NextRoundButton ({ onClick }) {
@@ -78,16 +81,11 @@ const electionRequiredChecker = ({ loggedInUser, storyTeller, selectedCards, pla
   const hasLoggedInUserVoted = selectedCards
     .filter(c => c.votes.find(v => v.index === loggedInUser.index)).length
 
-  console.log('electionRequiredChecker', isAllCardsSelected, isLoggedInUserTheStoryTeller)
-
   return isLoggedInUserTheStoryTeller ? false : isAllCardsSelected && !hasLoggedInUserVoted
 }
 
 const GameBoardElection = connect(state => ({
   electionRequired: electionRequiredChecker(state.game)
-}),
-dispatch => ({
-  nextRound: () => dispatch(nextRound())
 }))(GameBoardElectionPresentational)
 
 export default GameBoardElection

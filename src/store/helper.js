@@ -53,17 +53,37 @@ export function dealCards (cards, players) {
   })
 }
 
-/* discard the cards selected on the current round and deal +1 */
-export function discardSelectedAndDealMore ({ cards, selectedCards }) {
-  const owners = selectedCards.map(s => s.owner)
+function undiscard (cards) {
+  return cards.map(c => (
+    { ...c, discarded: false }
+  ))
+}
 
-  const newCards = cards
+function discardSelection (cards, selectedCards) {
+  return cards
     .filter(c => !selectedCards.find(s => s.index === c.index))
     .concat(selectedCards.map(s => (
       { ...s, owner: null, selected: false, votes: [], discarded: true }
     )))
+}
 
-  let drawPile = newCards.filter(c => c.owner === null && !c.discarded)
+function filterDrawPile (cards) {
+  return cards
+    .filter(c => c.owner === null && !c.discarded)
+}
+
+/* discard the cards selected on the current round and deal +1 */
+export function discardSelectedAndDealMore ({ cards, selectedCards }) {
+  let newCards = cards
+  let drawPile = filterDrawPile(cards)
+  const owners = selectedCards.map(s => s.owner)
+
+  if (drawPile.length < owners.length) {
+    newCards = undiscard(cards)
+    drawPile = filterDrawPile(newCards)
+  }
+
+  newCards = discardSelection(newCards, selectedCards)
 
   const dealt = owners.reduce((acc, o) => {
     const drawPileIndex = randomUpTo(drawPile.length)

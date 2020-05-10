@@ -25,7 +25,7 @@ import {
 const initialGameState = {
   room: null,
   players: [
-    { index: 0, color: 'yellow', name: null, score: null },
+    { index: 0, color: 'yellow', name: 'A', score: 30 },
     { index: 1, color: 'red', name: null, score: null },
     { index: 2, color: 'blue', name: null, score: null },
     { index: 3, color: 'white', name: null, score: null },
@@ -42,7 +42,8 @@ const initialGameState = {
   ),
   selectedCards: [],
   storyTellerSelected: false,
-  listenersSelected: false
+  listenersSelected: false,
+  endOfMatch: false
 }
 
 function setRoom (state, { id }) {
@@ -123,17 +124,22 @@ function voteCard (state, { card, voter }) {
   }
 }
 
-function nextRound (state) {
+function updatePlayersScore ({ players, selectedCards, storyTeller }) {
   const prevRndScore =
-    calcRoundScore(state.players, state.selectedCards, state.storyTeller)
+    calcRoundScore(players, selectedCards, storyTeller)
 
-  const players = state.players.map(p => {
+  return players.map(p => {
     const prevS = prevRndScore[p.index] === undefined ? 0 : prevRndScore[p.index]
     return { ...p, score: p.score + prevS }
   })
+}
+
+function nextRound (state) {
+  console.log('nextRound reducer')
+  const players = updatePlayersScore(state)
 
   const storyTeller =
-    state.players[(state.storyTeller.index + 1) % players.filter(p => p.name).length]
+    players[(state.storyTeller.index + 1) % players.filter(p => p.name).length]
 
   return {
     ...state,
@@ -144,6 +150,7 @@ function nextRound (state) {
     listeners: players.filter(p => p.name && p.index !== storyTeller.index),
     storyTellerSelected: false,
     listenersSelected: false,
+    endOfMatch: !!players.find(p => p.score >= 30),
     serverUpdated: false
   }
 }

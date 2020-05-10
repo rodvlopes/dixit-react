@@ -59,7 +59,7 @@ export function voteCard (card, voter) {
   return { type: VOTE_CARD, card, voter }
 }
 
-export function nextRound (previousRoundScores) {
-  console.log('nextRound', previousRoundScores)
-  return { type: NEXT_ROUND, previousRoundScores }
+export function nextRound () {
+  console.log('nextRound')
+  return { type: NEXT_ROUND }
 }

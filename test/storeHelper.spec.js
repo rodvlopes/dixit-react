@@ -124,4 +124,37 @@ describe("discardSelectedAndDealMore", () => {
     )
     expect(result.filter(c=>c.discarded).length).toEqual(2)
   })
+
+  test('Undiscard all (expect currently selected) when the draw pile is smaller then the num of players', () => {
+    const cards = [
+      {index: 0, owner: 0, votes: [], selected: false, discarded: false},
+      {index: 1, owner: 0, votes: [], selected: false, discarded: false},
+      {index: 2, owner: 1, votes: [], selected: false, discarded: false},
+      {index: 3, owner: 1, votes: [], selected: false, discarded: false},
+      {index: 4, owner: null, votes: [], selected: false, discarded: true}, /**/
+      {index: 5, owner: null, votes: [], selected: false, discarded: true}, /**/
+      {index: 6, owner: null, votes: [], selected: false, discarded: true}, /**/
+    ]
+
+    const selectedCards =[
+      {index: 0, owner: 0, votes: [1], selected: true, discarded: false},
+      {index: 2, owner: 1, votes: [0], selected: true, discarded: false}
+    ]
+
+    const result = discardSelectedAndDealMore ({ cards, selectedCards })
+    const owner0Cards = result.filter(c => c.owner === 0)
+    const owner1Cards = result.filter(c => c.owner === 1)
+    const discardeds = result.filter(c=>c.discarded)
+
+    expect(result.length).toEqual(7)
+    expect(owner0Cards.length).toEqual(2)
+    expect(owner1Cards.length).toEqual(2)
+    expect(owner0Cards.map(c => c.index)).toEqual(
+      expect.not.arrayContaining([0,2,3])
+    )
+    expect(owner1Cards.map(c => c.index)).toEqual(
+      expect.not.arrayContaining([2,0,1])
+    )
+    expect(discardeds.map(c => c.index)).toEqual([0,2])
+  })
 })
