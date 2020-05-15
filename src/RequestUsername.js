@@ -6,18 +6,25 @@ import { connect } from 'react-redux'
 
 function RequestUsernamePresentational ({ logUserIn, players }) {
   const [name, setName] = React.useState(null)
+  const [nameInvalid, setNameInvalid] = React.useState(true)
   const [isRoomFull, setRoomFull] = React.useState(false)
   const onlinePlayersNum = players.filter(p => p.name).length
 
-  function handleSubmit (event) {
+  function enterRoom (event) {
     event.preventDefault()
-    const isNotRelogin = !players.find(p => p.name === name.toUpperCase())
+    const shortName = name.substr(0, 4)
+    const isNotRelogin = !players.find(p => p.name === shortName)
 
     if (onlinePlayersNum > 5 && isNotRelogin) {
       setRoomFull(true)
     } else {
-      logUserIn(name)
+      logUserIn(shortName)
     }
+  }
+
+  function onChange (name) {
+    setNameInvalid(name.length === 0 || name.length > 4)
+    setName(name.toUpperCase())
   }
 
   if (isRoomFull) {
@@ -37,17 +44,21 @@ function RequestUsernamePresentational ({ logUserIn, players }) {
   }
 
   return (
-    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+    <form noValidate autoComplete="off" onSubmit={enterRoom}>
       <Box justifyContent="center" alignItems="center" display="flex" height="60vh">
         <TextField
           label="Nome/Apelido"
           variant="outlined"
-          helperText="Escolha um nome bem curto."
-          onChange={ e => setName(event.target.value) }
+          size="medium"
+          value={name || ''}
+          helperText={ nameInvalid ? 'Escolha um nome com até 4 caracteres.' : null }
+          error={nameInvalid}
+          onChange={ e => onChange(event.target.value) }
+          style={{ width: '270px' }}
         />
       </Box>
       <Box justifyContent="center" alignItems="center" display="flex">
-        <Button type="submit" variant="contained" color="primary" size="large">
+        <Button type="submit" variant="contained" color="primary" size="large" disabled={nameInvalid}>
           Entrar
         </Button>
       </Box>

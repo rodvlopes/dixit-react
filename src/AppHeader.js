@@ -68,12 +68,13 @@ const PlayersHeader = connect(state => ({
 
 export { PlayersHeader }
 
-function UserPresentational ({ name }) {
+function UserPresentational ({ name, room }) {
   return (
-    <span>{name}</span>
+    <span>{name} @ {room}</span>
   )
 }
 
 const User = connect(state => ({
+  room: state.game.room,
   name: state.game.loggedInUser.name
 }), null)(UserPresentational)

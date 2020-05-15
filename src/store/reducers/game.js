@@ -25,7 +25,7 @@ import {
 const initialGameState = {
   room: null,
   players: [
-    { index: 0, color: 'yellow', name: 'A', score: 30 },
+    { index: 0, color: 'yellow', name: null, score: null },
     { index: 1, color: 'red', name: null, score: null },
     { index: 2, color: 'blue', name: null, score: null },
     { index: 3, color: 'white', name: null, score: null },

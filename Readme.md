@@ -22,6 +22,7 @@ React, Redux, Webpack, Websockts and MaterialUI.
 
 ## TODO
 
+* Show those that haven't voted yet
 * Recover last username
 * Deny new players after game has started
 * User name must be unique among other users in the same room
