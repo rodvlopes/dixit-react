@@ -34,6 +34,7 @@ function GameCardPresentational ({
   card,
   selectionRequired,
   electionRequired,
+  electionFinished,
   storyTeller,
   revealVotes,
   selectCard,
@@ -69,7 +70,7 @@ function GameCardPresentational ({
   }
 
   return (
-    <Card className={`${classes.card} ${isStoryTellerCard && revealVotes ? classes.cardSt : ''}`}>
+    <Card className={`${classes.card} ${isStoryTellerCard && electionFinished ? classes.cardSt : ''}`}>
       <CardContent className={classes.cardContent}>
         <img src={`cards/card_${card.index}.png`} />
       </CardContent>

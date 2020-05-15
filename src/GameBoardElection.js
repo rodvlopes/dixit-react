@@ -3,32 +3,61 @@ import React from 'react'
 import GameCard from './GameCard'
 import { Grid, Box, Button, Collapse }
   from '@material-ui/core'
+import PersonIcon from '@material-ui/icons/AccountCircle'
 import { calcRoundScore } from './store/helper'
 import { nextRound } from './store/actions'
 import { connect } from 'react-redux'
 
-function GameBoardElectionPresentational ({ cards, listeners, electionRequired, nextRound }) {
+function GameBoardElectionPresentational ({
+  cards,
+  listeners,
+  electionRequired,
+  nextRound
+}) {
   const votesNum = cards.reduce((acc, c) => acc + c.votes.length, 0)
   const electionFinished = votesNum - listeners.length === 0
-  const width = electionFinished ? 6 : 12
+  const noVoteListeners = listeners
+    .filter(p => !cards.find(c => c.votes.map(v => v.index).includes(p.index)))
 
   return (
     <>
       <Collapse in={electionFinished}>
         <RoundScore cards={cards}/>
       </Collapse>
-      <Grid container spacing={2}>
-        {cards.map(c =>
-          <Grid item key={c.index} xs={width} md={6} lg={4}>
-            <GameCard
-              card={c}
-              electionRequired={electionRequired}
-              revealVotes={electionFinished}
-            />
-          </Grid>
-        )}
-      </Grid>
+      <WaitingVoters players={noVoteListeners} />
+      <ElectionBoard { ...{ cards, electionRequired, electionFinished } } />
     </>
+  )
+}
+
+function WaitingVoters ({ players }) {
+  return (
+    <Box justifyContent="center" alignItems="center" textAlign="center" display="flex">
+      <p>Aguardando:</p>
+      {players.map(p =>
+        <PersonIcon key={p.index} style={{ color: p.color, marginLeft: '10px' }} />
+      )}
+    </Box>
+  )
+}
+
+function ElectionBoard ({ cards, electionRequired, electionFinished }) {
+  const revealVotes = !electionRequired
+  const width = revealVotes ? 6 : 12
+
+  return (
+    <Grid container spacing={2}>
+      {cards.map(c =>
+        <Grid item key={c.index} xs={width} md={6} lg={4}>
+          <GameCard
+            card={c}
+            electionRequired={electionRequired}
+            revealVotes={revealVotes}
+            electionFinished={electionFinished}
+          />
+        </Grid>
+      )}
+    </Grid>
   )
 }
 

@@ -22,12 +22,12 @@ React, Redux, Webpack, Websockts and MaterialUI.
 
 ## TODO
 
-* Show those that haven't voted yet
 * Recover last username
 * Deny new players after game has started
 * User name must be unique among other users in the same room
 * Internationalize game texts
 * Add prettier plugin
+* ~Show those that haven't voted yet~
 * ~Implement end of match condition~
 * ~Deal with no more players allowed in the room (max limit)~
 * ~Detect websocket disconnection and reconnect~
