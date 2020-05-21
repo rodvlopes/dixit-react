@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Box, TextField } from "@material-ui/core";
 import { assignColorToPlayer } from "./store/actions";
 import { connect } from "react-redux";
+import i18n from "./i18n";
 
 function RequestUsernamePresentational({ logUserIn, players }) {
   const [name, setName] = React.useState(null);
@@ -36,7 +37,7 @@ function RequestUsernamePresentational({ logUserIn, players }) {
           display="flex"
           height="50vh"
         >
-          SALA LOTADA!
+          {i18n("FullRoom")}
         </Box>
         <Box justifyContent="center" alignItems="center" display="flex">
           <Button
@@ -45,7 +46,7 @@ function RequestUsernamePresentational({ logUserIn, players }) {
             size="large"
             onClick={(e) => (document.location = "/")}
           >
-            Deseja criar uma nova sala?
+            {i18n("WantToCreateNewRoom?")}
           </Button>
         </Box>
       </>
@@ -61,13 +62,11 @@ function RequestUsernamePresentational({ logUserIn, players }) {
         height="60vh"
       >
         <TextField
-          label="Nome/Apelido"
+          label={i18n("Nickname")}
           variant="outlined"
           size="medium"
           value={name || ""}
-          helperText={
-            nameInvalid ? "Escolha um nome com até 4 caracteres." : null
-          }
+          helperText={nameInvalid ? i18n("NameShouldBeUpTo4CharsLong") : null}
           error={nameInvalid}
           onChange={(e) => onChange(event.target.value)}
           style={{ width: "270px" }}
@@ -81,11 +80,11 @@ function RequestUsernamePresentational({ logUserIn, players }) {
           size="large"
           disabled={nameInvalid}
         >
-          Entrar
+          {i18n("Enter")}
         </Button>
       </Box>
       <Box justifyContent="center" alignItems="center" display="flex">
-        Jogadores presente nesta sala: {onlinePlayersNum} de 6.
+        {i18n("NumOfPlayerInRoom", onlinePlayersNum)}
       </Box>
     </form>
   );
