@@ -1,26 +1,26 @@
 /* eslint 'react/prop-types' : 0 */
-import React from 'react'
-import './global.styl'
-import { AppBar, Toolbar, Button, Box } from '@material-ui/core'
-import RecentActorsIcon from '@material-ui/icons/RecentActors'
-import DashboardIcon from '@material-ui/icons/Dashboard'
-import { makeStyles } from '@material-ui/core/styles'
-import { connect } from 'react-redux'
+import React from "react";
+import "./global.styl";
+import { AppBar, Toolbar, Button, Box } from "@material-ui/core";
+import RecentActorsIcon from "@material-ui/icons/RecentActors";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   thinBtn: {
     minWidth: 0,
-    '& .MuiButton-startIcon': {
-      marginRight: 0
-    }
-  }
-}))
+    "& .MuiButton-startIcon": {
+      marginRight: 0,
+    },
+  },
+}));
 
-export default function AppHeader ({ openMyCards, openProgress }) {
-  const classes = useStyles()
+export default function AppHeader({ openMyCards, openProgress }) {
+  const classes = useStyles();
 
   return (
     <AppBar position="relative">
@@ -30,51 +30,70 @@ export default function AppHeader ({ openMyCards, openProgress }) {
           variant="contained"
           onClick={openMyCards}
           disabled={!openMyCards}
-          startIcon={<RecentActorsIcon />}>{''}
+          startIcon={<RecentActorsIcon />}
+        >
+          {""}
         </Button>
-        <Box flexGrow={1} textAlign="center"><User /></Box>
+        <Box flexGrow={1} textAlign="center">
+          <User />
+        </Box>
         <Button
           className={classes.thinBtn}
           variant="contained"
           onClick={openProgress}
           disabled={!openProgress}
-          startIcon={<DashboardIcon />}>{''}
+          startIcon={<DashboardIcon />}
+        >
+          {""}
         </Button>
       </Toolbar>
       <PlayersHeader />
     </AppBar>
-  )
+  );
 }
 
-function PlayersHeaderPresentational ({ players, storyTeller }) {
+function PlayersHeaderPresentational({ players, storyTeller }) {
   return (
     <Box display="flex">
-      {players.map(p => {
-        var storyTellerClass = storyTeller && p.index === storyTeller.index ? 'story-teller' : ''
+      {players.map((p) => {
+        var storyTellerClass =
+          storyTeller && p.index === storyTeller.index ? "story-teller" : "";
         return (
-          <Box key={p.color} className={`player ${p.color} ${storyTellerClass}`} width={1 / 6}>
-            {p.name === null ? '-' : p.name }
+          <Box
+            key={p.color}
+            className={`player ${p.color} ${storyTellerClass}`}
+            width={1 / 6}
+          >
+            {p.name === null ? "-" : p.name}
           </Box>
-        )
+        );
       })}
     </Box>
-  )
+  );
 }
 
-const PlayersHeader = connect(state => ({
-  players: state.game.players,
-  storyTeller: state.game.storyTeller
-}), null)(PlayersHeaderPresentational)
+const PlayersHeader = connect(
+  (state) => ({
+    players: state.game.players,
+    storyTeller: state.game.storyTeller,
+  }),
+  null
+)(PlayersHeaderPresentational);
 
-export { PlayersHeader }
+export { PlayersHeader };
 
-function UserPresentational ({ name, room }) {
+function UserPresentational({ name, room }) {
   return (
-    <span>{name} @ {room}</span>
-  )
+    <span>
+      {name} @ {room}
+    </span>
+  );
 }
 
-const User = connect(state => ({
-  room: state.game.room,
-  name: state.game.loggedInUser.name
-}), null)(UserPresentational)
+const User = connect(
+  (state) => ({
+    room: state.game.room,
+    name: state.game.loggedInUser.name,
+  }),
+  null
+)(UserPresentational);

@@ -1,19 +1,19 @@
 /* eslint 'react/prop-types' : 0 */
-import './global.styl'
-import React from 'react'
-import { Grid, Box, AppBar, Toolbar, IconButton } from '@material-ui/core'
-import NavigateNextIcon from '@material-ui/icons/NavigateNext'
-import { makeStyles } from '@material-ui/core/styles'
-import { connect } from 'react-redux'
+import "./global.styl";
+import React from "react";
+import { Grid, Box, AppBar, Toolbar, IconButton } from "@material-ui/core";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    flexGrow: 1
-  }
-}))
+    flexGrow: 1,
+  },
+}));
 
-function ScoreBoardPresentational ({ onClose, players }) {
-  const classes = useStyles()
+function ScoreBoardPresentational({ onClose, players }) {
+  const classes = useStyles();
 
   return (
     <>
@@ -28,27 +28,30 @@ function ScoreBoardPresentational ({ onClose, players }) {
 
       <ScoreGrid players={players} />
     </>
-  )
+  );
 }
 
-export function ScoreGrid ({ players }) {
+export function ScoreGrid({ players }) {
   return (
     <Grid container>
-      {players.map(p => {
+      {players.map((p) => {
         return (
           <Grid item key={p.color} xs={2}>
             <Box className={`player ${p.color}`} p={2}>
-              {p.score === null ? '-' : p.score }
+              {p.score === null ? "-" : p.score}
             </Box>
           </Grid>
-        )
+        );
       })}
     </Grid>
-  )
+  );
 }
 
-const ScoreBoard = connect(state => ({
-  players: state.game.players
-}), null)(ScoreBoardPresentational)
+const ScoreBoard = connect(
+  (state) => ({
+    players: state.game.players,
+  }),
+  null
+)(ScoreBoardPresentational);
 
-export default ScoreBoard
+export default ScoreBoard;

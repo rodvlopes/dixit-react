@@ -22,12 +22,12 @@ React, Redux, Webpack, Websockts and MaterialUI.
 
 ## TODO
 
-* Change white color to grey
 * Recover last username
 * Deny new players after game has started
 * User name must be unique among other users in the same room
 * Internationalize game texts
-* Add prettier plugin
+* ~Add prettier plugin~
+* ~Change white color to grey~
 * ~Show those that haven't voted yet~
 * ~Implement end of match condition~
 * ~Deal with no more players allowed in the room (max limit)~

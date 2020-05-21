@@ -1,19 +1,19 @@
 /* eslint 'react/prop-types' : 0 */
-import React from 'react'
-import { Grid, AppBar, Toolbar, IconButton } from '@material-ui/core'
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
-import GameCard from './GameCard'
-import { connect } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+import React from "react";
+import { Grid, AppBar, Toolbar, IconButton } from "@material-ui/core";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import GameCard from "./GameCard";
+import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    flexGrow: 1
-  }
-}))
+    flexGrow: 1,
+  },
+}));
 
-function MyCardsPresentational ({ cards, onClose, selectionRequired }) {
-  const classes = useStyles()
+function MyCardsPresentational({ cards, onClose, selectionRequired }) {
+  const classes = useStyles();
 
   return (
     <>
@@ -27,39 +27,43 @@ function MyCardsPresentational ({ cards, onClose, selectionRequired }) {
       </AppBar>
 
       <Grid container spacing={3}>
-        {cards.map(c =>
+        {cards.map((c) => (
           <Grid item key={c.index} xs={12} md={6} lg={4}>
-            <GameCard
-              card={c}
-              selectionRequired={selectionRequired}
-            />
+            <GameCard card={c} selectionRequired={selectionRequired} />
           </Grid>
-        )}
+        ))}
       </Grid>
     </>
-  )
+  );
 }
 
-const selectionRequiredChecker = ({ loggedInUser, storyTeller, selectedCards }) => {
-  const hasStoryTellerSelected =
-    selectedCards.filter(c => c.owner === storyTeller.index).length
+const selectionRequiredChecker = ({
+  loggedInUser,
+  storyTeller,
+  selectedCards,
+}) => {
+  const hasStoryTellerSelected = selectedCards.filter(
+    (c) => c.owner === storyTeller.index
+  ).length;
 
-  const hasListenerSelected =
-    selectedCards.filter(c => c.owner === loggedInUser.index).length
+  const hasListenerSelected = selectedCards.filter(
+    (c) => c.owner === loggedInUser.index
+  ).length;
 
-  const isLoggedInUserTheStoryTeller =
-    loggedInUser.index === storyTeller.index
+  const isLoggedInUserTheStoryTeller = loggedInUser.index === storyTeller.index;
 
   if (hasStoryTellerSelected) {
-    return isLoggedInUserTheStoryTeller ? false : !hasListenerSelected
+    return isLoggedInUserTheStoryTeller ? false : !hasListenerSelected;
   } else {
-    return isLoggedInUserTheStoryTeller
+    return isLoggedInUserTheStoryTeller;
   }
-}
+};
 
-const MyCards = connect(state => ({
-  cards: state.game.cards.filter(c => c.owner === state.game.loggedInUser.index),
-  selectionRequired: selectionRequiredChecker(state.game)
-}))(MyCardsPresentational)
+const MyCards = connect((state) => ({
+  cards: state.game.cards.filter(
+    (c) => c.owner === state.game.loggedInUser.index
+  ),
+  selectionRequired: selectionRequiredChecker(state.game),
+}))(MyCardsPresentational);
 
-export default MyCards
+export default MyCards;
