@@ -35,7 +35,7 @@ function WaitingVoters ({ players }) {
     <Box justifyContent="center" alignItems="center" textAlign="center" display="flex">
       <p>Aguardando:</p>
       {players.map(p =>
-        <PersonIcon key={p.index} style={{ color: p.color, marginLeft: '10px' }} />
+        <PersonIcon key={p.index} className={p.color} style={{ marginLeft: '10px' }} />
       )}
     </Box>
   )

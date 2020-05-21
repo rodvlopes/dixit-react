@@ -17,7 +17,7 @@ export default function WaitingListeners ({ players }) {
           {players.map(p =>
             <ListItem key={p.index}>
               <ListItemIcon>
-                <PersonIcon style={{ color: p.color }} />
+                <PersonIcon className={p.color} />
               </ListItemIcon>
               <ListItemText primary={p.name} />
             </ListItem>

@@ -65,7 +65,7 @@ function GameCardPresentational ({
   if (revealVotes) {
     Votes =
       <CardActions>
-        {card.votes.map(v => <PersonIcon key={v.index} style={{ color: v.color }} />)}
+        {card.votes.map(v => <PersonIcon key={v.index} className={v.color} />)}
       </CardActions>
   }
 
