@@ -5,6 +5,7 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import GameCard from "./GameCard";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import i18n from "./i18n";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -19,7 +20,7 @@ function MyCardsPresentational({ cards, onClose, selectionRequired }) {
     <>
       <AppBar position="relative" color="secondary">
         <Toolbar>
-          <h4 className={classes.title}>Minha Cartas</h4>
+          <h4 className={classes.title}>{i18n("MyCards")}</h4>
           <IconButton onClick={onClose}>
             <NavigateBeforeIcon />
           </IconButton>

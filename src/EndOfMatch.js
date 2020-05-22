@@ -4,6 +4,7 @@ import { ScoreGrid } from "./ScoreBoard";
 import { PlayersHeader } from "./AppHeader";
 import { Box } from "@material-ui/core";
 import { connect } from "react-redux";
+import i18n from "./i18n";
 
 function EndOfMatchPresentional({ players }) {
   return (
@@ -14,7 +15,7 @@ function EndOfMatchPresentional({ players }) {
         display="flex"
         height="20vh"
       >
-        Fim de Jogo!
+        {i18n("EndOfMatch")}
       </Box>
       <PlayersHeader />
       <ScoreGrid players={players} />

@@ -1,5 +1,17 @@
 import React from 'react';
-import {dealCards, calcRoundScore, discardSelectedAndDealMore} from '../src/store/helper';
+import {
+  dealCards, 
+  calcRoundScore, 
+  discardSelectedAndDealMore, 
+  generateSimpleId 
+} from '../src/store/helper';
+
+describe("generateSimpleId", () => {
+  test('Should generate a 3 character random word', () => {
+    for (let i=0; i++<100;)
+      expect(generateSimpleId()).toMatch(/\w\w\w/);
+  })
+})
 
 describe("dealCards", () => {
   const cards = Array(84).fill().map((u, i) => ({owner: null, votes: null, selected: false, index: i }))

@@ -1,13 +1,10 @@
 /* eslint 'react/prop-types' : 0 */
 import React from "react";
 import { Button, Box } from "@material-ui/core";
+import { generateSimpleId } from "./store/helper";
+import i18n from "./i18n";
 
 export default function CreateRoom() {
-  const generateSimpleId = (length = 3) =>
-    [...Array(length)]
-      .map(() => ((Math.random() * 32) | 0).toString(32))
-      .join("");
-
   const onClick = (e) => {
     const id = `${generateSimpleId()}`;
     document.location.search = `?room=${id}`;
@@ -28,7 +25,7 @@ export default function CreateRoom() {
         size="large"
         onClick={onClick}
       >
-        Criar Sala
+        {i18n("CreateRoom")}
       </Button>
     </Box>
   );

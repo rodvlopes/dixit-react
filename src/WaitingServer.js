@@ -1,6 +1,7 @@
 /* eslint 'react/prop-types' : 0 */
 import React from "react";
 import { Box, CircularProgress } from "@material-ui/core";
+import i18n from "./i18n";
 
 export default function WaitingServer() {
   return (
@@ -13,7 +14,7 @@ export default function WaitingServer() {
     >
       <CircularProgress />
       <Box width="100%" textAlign="center" alignSelf="flex-start">
-        Conectando-se ao servidor...
+        {i18n("WaitingServer")}
       </Box>
     </Box>
   );

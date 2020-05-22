@@ -9,10 +9,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import PersonIcon from "@material-ui/icons/AccountCircle";
+import i18n from "./i18n";
 
 export default function WaitingListeners({ players }) {
-  const info = "Aguardando os jogadores a selecionarem a carta:";
-
   return (
     <>
       <Box
@@ -22,7 +21,7 @@ export default function WaitingListeners({ players }) {
         display="flex"
         height="20vh"
       >
-        <Typography>{info}</Typography>
+        <Typography>{i18n("WaitingListenersToSelect")}</Typography>
       </Box>
       <Box
         justifyContent="center"

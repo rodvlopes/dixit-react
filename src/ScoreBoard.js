@@ -5,6 +5,7 @@ import { Grid, Box, AppBar, Toolbar, IconButton } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
+import i18n from "./i18n";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -22,7 +23,7 @@ function ScoreBoardPresentational({ onClose, players }) {
           <IconButton onClick={onClose}>
             <NavigateNextIcon />
           </IconButton>
-          <h4 className={classes.title}>Tabuleiro de Pontuação</h4>
+          <h4 className={classes.title}>{i18n("ScoreBoard")}</h4>
         </Toolbar>
       </AppBar>
 

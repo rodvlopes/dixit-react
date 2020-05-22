@@ -1,5 +1,11 @@
 /* eslint 'no-prototype-builtins' : 0 */
 
+export function generateSimpleId(length = 3) {
+  return [...Array(length)]
+    .map(() => ((Math.random() * 32) | 0).toString(32))
+    .join("");
+}
+
 export function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }

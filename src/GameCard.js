@@ -5,6 +5,7 @@ import PersonIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { selectCard, voteCard } from "./store/actions";
 import { makeStyles } from "@material-ui/core/styles";
+import i18n from "./i18n";
 
 const useStyles = makeStyles(({ palette }) => ({
   card: {
@@ -56,7 +57,7 @@ function GameCardPresentational({
           size="small"
           onClick={(ev) => selectCard(card)}
         >
-          Selecionar Esta
+          {i18n("SelectThisOne")}
         </Button>
       </CardActions>
     );
@@ -70,7 +71,7 @@ function GameCardPresentational({
           size="small"
           onClick={(ev) => voteCard(card, voter)}
         >
-          Votar Nesta
+          {i18n("VoteForThis")}
         </Button>
       </CardActions>
     );

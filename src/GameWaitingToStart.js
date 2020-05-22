@@ -4,6 +4,7 @@ import { Button, Box } from "@material-ui/core";
 import AppHeader from "./AppHeader";
 import { startGame } from "./store/actions";
 import { connect } from "react-redux";
+import i18n from "./i18n";
 
 function GameWaitingToStartPresentational({ startGame, numPlayers }) {
   const onClick = (e) => startGame();
@@ -17,10 +18,7 @@ function GameWaitingToStartPresentational({ startGame, numPlayers }) {
         display="flex"
         height="30vh"
       >
-        <h3>
-          Depois que todos os jogadors estiverem presentes, pressione o botão
-          para iniciar.
-        </h3>
+        <h3>{i18n("WaitOthersPlayersThenPressStart")}</h3>
       </Box>
       <Box justifyContent="center" alignItems="center" display="flex">
         <Button
@@ -30,11 +28,11 @@ function GameWaitingToStartPresentational({ startGame, numPlayers }) {
           onClick={onClick}
           disabled={numPlayers < 3}
         >
-          Iniciar o Jogo
+          {i18n("StartTheGame")}
         </Button>
       </Box>
       <Box justifyContent="center" alignItems="center" display="flex">
-        Mínimo: 3 jogadores.
+        {i18n("MinimumNumPlayers")}
       </Box>
     </>
   );

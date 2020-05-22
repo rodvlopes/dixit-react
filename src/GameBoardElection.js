@@ -6,6 +6,7 @@ import PersonIcon from "@material-ui/icons/AccountCircle";
 import { calcRoundScore } from "./store/helper";
 import { nextRound } from "./store/actions";
 import { connect } from "react-redux";
+import i18n from "./i18n";
 
 function GameBoardElectionPresentational({
   cards,
@@ -38,7 +39,7 @@ function WaitingVoters({ players }) {
       textAlign="center"
       display="flex"
     >
-      <p>Aguardando:</p>
+      <p>{i18n("WaitingVoters")}</p>
       {players.map((p) => (
         <PersonIcon
           key={p.index}
@@ -108,7 +109,7 @@ function NextRoundButton({ onClick }) {
         size="large"
         onClick={onClick}
       >
-        Inicar Próxima Rodada
+        {i18n("StartNextRound")}
       </Button>
     </Box>
   );

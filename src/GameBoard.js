@@ -4,6 +4,7 @@ import GameBoardElection from "./GameBoardElection";
 import WaitingListeners from "./WaitingListeners";
 import { Box } from "@material-ui/core";
 import { connect } from "react-redux";
+import i18n from "./i18n";
 
 function GameBoardPresentional({
   selectedCards,
@@ -29,8 +30,6 @@ function GameBoardPresentional({
 }
 
 function WaitingStoryTeller({ player }) {
-  const name = player.name;
-
   return (
     <Box
       justifyContent="center"
@@ -39,9 +38,7 @@ function WaitingStoryTeller({ player }) {
       display="flex"
       height="50vh"
     >
-      <h3>
-        Aguardando o narrador ({name}) selecionar a carta e dar a <b>DICA</b>.
-      </h3>
+      <h3>{i18n("WaitingStoryTellerToSelect")(player.name)}</h3>
     </Box>
   );
 }
