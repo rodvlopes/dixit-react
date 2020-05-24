@@ -51,6 +51,12 @@ setMessage(
 
 setMessage("FullRoom", "ROOM IS FULL!", "SALA LOTADA!");
 
+setMessage(
+  "noMorePlayersAfterGameStart",
+  "The game has started already. No new players allowed.",
+  "A partida já começou, não é permitida a entrada de novos jogadores."
+);
+
 setMessage("Nickname", "Name/Nickname", "Nome/Apelido");
 
 setMessage("CreateRoom", "Create Room", "Criar Sala");

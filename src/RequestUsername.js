@@ -5,10 +5,14 @@ import { assignColorToPlayer } from "./store/actions";
 import { connect } from "react-redux";
 import i18n from "./i18n";
 
-function RequestUsernamePresentational({ logUserIn, players }) {
+function RequestUsernamePresentational({ logUserIn, players, gameStarted }) {
   const [name, setName] = React.useState(null);
   const [nameInvalid, setNameInvalid] = React.useState(true);
   const [isRoomFull, setRoomFull] = React.useState(false);
+  const [
+    noMorePlayersAfterGameStart,
+    setNoMorePlayersAfterGameStart,
+  ] = React.useState(false);
   const onlinePlayersNum = players.filter((p) => p.name).length;
 
   function enterRoom(event) {
@@ -16,7 +20,9 @@ function RequestUsernamePresentational({ logUserIn, players }) {
     const shortName = name.substr(0, 4);
     const isNotRelogin = !players.find((p) => p.name === shortName);
 
-    if (onlinePlayersNum > 5 && isNotRelogin) {
+    if (gameStarted && isNotRelogin) {
+      setNoMorePlayersAfterGameStart(true);
+    } else if (onlinePlayersNum > 5 && isNotRelogin) {
       setRoomFull(true);
     } else {
       logUserIn(shortName);
@@ -28,7 +34,7 @@ function RequestUsernamePresentational({ logUserIn, players }) {
     setName(name.toUpperCase());
   }
 
-  if (isRoomFull) {
+  if (isRoomFull || noMorePlayersAfterGameStart) {
     return (
       <>
         <Box
@@ -37,7 +43,8 @@ function RequestUsernamePresentational({ logUserIn, players }) {
           display="flex"
           height="50vh"
         >
-          {i18n("FullRoom")}
+          {isRoomFull && i18n("FullRoom")}
+          {noMorePlayersAfterGameStart && i18n("noMorePlayersAfterGameStart")}
         </Box>
         <Box justifyContent="center" alignItems="center" display="flex">
           <Button
@@ -92,6 +99,7 @@ function RequestUsernamePresentational({ logUserIn, players }) {
 
 const mapStateToProps = (state) => ({
   players: state.game.players,
+  gameStarted: state.game.started,
 });
 
 const mapDispatchToProps = (dispatch) => ({

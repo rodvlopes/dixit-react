@@ -1,20 +1,22 @@
 # React DiXit Game
 
-This game is an adaptation of the board game Dixit to the mobile web. 
+This game is an adaptation of the board game Dixit to the web mobile plataform. 
 
-![cat](./public/cards/card_43.png)
+![demo0](./demo/demo0.jpg)
+![demo1](./demo/demo1.jpg)
+![demo2](./demo/demo2.jpg)
 
 ## Motivation 
 
-To continue playing DiXit with my friends and family during the quarantine period of the COVID-19. Another motivation is to put in practice some _React_ developing skills. 
+To continue playing DiXit with my friends and family during the quarantine period of the COVID-19. Another motivation is to put in practice some _React_ development skills. 
 
 ## Disclaimer
 
 This is a study project and improvents are required in many ways.
 
-## Architeture
+## Demo
 
-* TODO
+http://moran.ga/dixit
 
 ## Dev Stack
 
@@ -22,10 +24,11 @@ React, Redux, Webpack, Websockts and MaterialUI.
 
 ## TODO
 
+* Add progress to score board
+* Sum score immediately after round is finished
 * Recover last username
-* Deny new players after game has started
-* User name must be unique among other users in the same room
-* Internationalize game texts
+* ~Deny new players after game has started~
+* ~Internationalize game texts~
 * ~Add prettier plugin~
 * ~Change white color to grey~
 * ~Show those that haven't voted yet~

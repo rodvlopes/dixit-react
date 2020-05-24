@@ -1,6 +1,6 @@
 {
   "name": "dixit-react",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "A web version of Dixit board game implemented using React/Redux/Websockets",
   "main": "index.js",
   "scripts": {
