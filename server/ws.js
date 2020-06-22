@@ -13,17 +13,17 @@ wss.on('connection', function connection(ws, req) {
   ws.id = id
   ws.room = room
 
-  INFO && console.log('new client connected client [%s] at room [%s]', id, room)
+  info(`new client connected client [%id] at room [%room]`, ws)
 
   ws.send(lastState[room]) //send even if it's undefined
 
   ws.on('message', function incoming(message) {
-    INFO && console.log('received message from [%s] at room [%s]', ws.id, ws.room)
-    DEBUG && console.log(message)
+    info(`received message from [%id] at room [%room]`, ws)
+    debug(message)
 
     if (isIdentification(message)) {
       ws.id = message.replace('id=', '')
-      INFO && console.log('Client identified: %s', ws.id)
+      info('Client identified: %id', ws)
       return
     }
 
@@ -35,18 +35,37 @@ wss.on('connection', function connection(ws, req) {
           client.room === ws.room &&
           client.readyState === WebSocket.OPEN
         ){
-        INFO && console.log('Broadcasting to [%s] at room [%s]', client.id, client.room)
+        info(`${remoteIp(client)} Broadcasting to [%id] at room [%room]`, client)
         client.send(message)
       }
     })
   })
 
   ws.on('close', function close() {
-    INFO && console.log('Client [%s] closed the connection at room [%s]', ws.id, ws.room)
+    info(`Client [%id] closed the connection at room [%room]`, ws)
   })
 })
 
 
+
+// UTIL
+
 const isIdentification = (message) => {
   return message.indexOf('id=') === 0
+}
+
+const now = () => new Date().toISOString()
+  .replace(/T/, ' ')
+  .replace(/\..+/, '')  
+
+function debug() {
+  DEBUG && console.log(now(), ...arguments)
+}
+
+function info(msg, client={}) {
+  msg = msg
+    .replace('%id', client.id)
+    .replace('%room', client.room)
+  const socket = client._socket || {remoteAddress: ''}
+  INFO && console.log(now(), socket.remoteAddress, msg)
 }
