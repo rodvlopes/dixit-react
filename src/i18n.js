@@ -108,3 +108,5 @@ setMessage(
   "Connecting to server...",
   "Conectando-se ao servidor..."
 );
+
+setMessage("CardSetSelection", "Card Set Selection", "Conjunto de Cartas");

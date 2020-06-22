@@ -1,2 +1,4 @@
 node_modules
 public
+assets/memories
+.DS_Store

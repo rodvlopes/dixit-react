@@ -4,6 +4,7 @@ import {
   calcRoundScore,
   discardSelectedAndDealMore,
   createReducer,
+  decomposeRoomExpansion,
 } from "../helper";
 
 import {
@@ -24,6 +25,7 @@ import {
 
 const initialGameState = {
   room: null,
+  expansion: "original",
   players: [
     { index: 0, color: "yellow", name: null, score: null },
     { index: 1, color: "red", name: null, score: null },
@@ -53,7 +55,8 @@ const initialGameState = {
 };
 
 function setRoom(state, { id }) {
-  return { ...state, room: id };
+  const expansion = decomposeRoomExpansion(id);
+  return { ...state, room: id, expansion };
 }
 
 function assignColorToPlayer(state, { username }) {

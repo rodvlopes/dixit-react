@@ -5,6 +5,7 @@ import PersonIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { selectCard, voteCard } from "./store/actions";
 import { makeStyles } from "@material-ui/core/styles";
+import { expansionConf } from "./store/helper";
 import i18n from "./i18n";
 
 const useStyles = makeStyles(({ palette }) => ({
@@ -33,6 +34,7 @@ const useStyles = makeStyles(({ palette }) => ({
 
 function GameCardPresentational({
   card,
+  expansion,
   selectionRequired,
   electionRequired,
   electionFinished,
@@ -87,6 +89,8 @@ function GameCardPresentational({
     );
   }
 
+  const extension = expansionConf[expansion].fileExtension;
+
   return (
     <Card
       className={`${classes.card} ${
@@ -94,7 +98,7 @@ function GameCardPresentational({
       }`}
     >
       <CardContent className={classes.cardContent}>
-        <img src={`cards/card_${card.index}.png`} />
+        <img src={`${expansion}/card_${card.index}.${extension}`} />
       </CardContent>
       {SelectAction}
       {ElectionAction}
@@ -107,6 +111,7 @@ const GameCard = connect(
   (state) => ({
     voter: state.game.loggedInUser,
     storyTeller: state.game.storyTeller,
+    expansion: state.game.expansion,
   }),
   (dispatch) => ({
     selectCard: (card) => dispatch(selectCard(card)),

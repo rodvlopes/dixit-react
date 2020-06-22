@@ -125,3 +125,34 @@ export function createReducer(initialState, handlers) {
     }
   };
 }
+
+export const expansionConf = {
+  original: {
+    key: "original",
+    name: "Original",
+    fileExtension: "png",
+    default: true,
+  },
+  memories: {
+    key: "memories",
+    name: "Memories",
+    fileExtension: "jpg",
+    default: false,
+  },
+};
+
+export const defaultExpansion = Object.values(expansionConf).find(
+  (it) => it.default
+).key;
+
+const ROOM_EXPANSION_SEPARATOR = "-";
+
+export function composeRoomExpansion(id, expansion = defaultExpansion) {
+  return `${id}${ROOM_EXPANSION_SEPARATOR}${expansion}`;
+}
+
+export function decomposeRoomExpansion(roomId) {
+  return roomId.includes(ROOM_EXPANSION_SEPARATOR)
+    ? roomId.split(ROOM_EXPANSION_SEPARATOR)[1]
+    : defaultExpansion;
+}
