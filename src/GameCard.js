@@ -26,6 +26,10 @@ const useStyles = makeStyles(({ palette }) => ({
   cardContent: {
     flexGrow: 1,
     paddingBottom: 0,
+    "&>img": {
+      border: "inset",
+      borderRadius: "13px",
+    },
   },
   cardActions: {
     flexDirection: "column",
