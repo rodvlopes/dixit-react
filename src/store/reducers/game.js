@@ -5,6 +5,7 @@ import {
   discardSelectedAndDealMore,
   createReducer,
   decomposeRoomExpansion,
+  defaultExpansion,
 } from "../helper";
 
 import {
@@ -24,8 +25,8 @@ import {
 // }
 
 const initialGameState = {
-  room: null,
-  expansion: "original",
+  room: "init", // waiting room initialization from queryString
+  expansion: defaultExpansion,
   players: [
     { index: 0, color: "yellow", name: null, score: null },
     { index: 1, color: "red", name: null, score: null },
@@ -55,7 +56,7 @@ const initialGameState = {
 };
 
 function setRoom(state, { id }) {
-  const expansion = decomposeRoomExpansion(id);
+  const expansion = id ? decomposeRoomExpansion(id) : state.expansion;
   return { ...state, room: id, expansion };
 }
 

@@ -3,9 +3,7 @@ import { useRef, useEffect, useState } from "react";
 export function useRoom(setRoom) {
   useEffect(() => {
     const room = new URLSearchParams(window.location.search).get("room");
-    if (room) {
-      setRoom(room);
-    }
+    setRoom(room);
   }, []);
 }
 

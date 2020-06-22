@@ -13,7 +13,9 @@ import { setRoom, receiveGameStateFromServer } from "./store/actions";
 function HomePresentational({ room, setRoom }) {
   useRoom(setRoom);
 
-  if (room) {
+  if (room === "init") {
+    return <WaitingServer />;
+  } else if (room) {
     return <Room />;
   } else {
     return <CreateRoom />;
