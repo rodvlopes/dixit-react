@@ -18,7 +18,7 @@ wss.on('connection', function connection(ws, req) {
   ws.send(lastState[room]) //send even if it's undefined
 
   ws.on('message', function incoming(message) {
-    info(`received message from [%id] at room [%room]`, ws)
+    info(`Received message from [%id] at room [%room]`, ws)
     debug(message)
 
     if (isIdentification(message)) {
@@ -35,7 +35,7 @@ wss.on('connection', function connection(ws, req) {
           client.room === ws.room &&
           client.readyState === WebSocket.OPEN
         ){
-        info(`${remoteIp(client)} Broadcasting to [%id] at room [%room]`, client)
+        info(`Broadcasting to [%id] at room [%room]`, client)
         client.send(message)
       }
     })
@@ -69,3 +69,4 @@ function info(msg, client={}) {
   const socket = client._socket || {remoteAddress: ''}
   INFO && console.log(now(), socket.remoteAddress, msg)
 }
+

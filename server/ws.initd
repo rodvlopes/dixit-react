@@ -1,0 +1,53 @@
+### BEGIN INIT INFO
+# Provides:          dixit-ws
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: dixit-ws initscript
+# Description:       dixit-ws
+### END INIT INFO
+
+set -e
+
+export PID=/var/run/dixit-ws.pid
+export OLD_PID="$PID.oldbin"
+
+sig () {
+  test -s "$PID" && kill -$1 `cat "$PID"`
+}
+
+oldsig () {
+  test -s "$OLD_PID" && kill -$1 `cat "$OLD_PID"`
+}
+
+cmd () {
+
+  case $1 in
+    start)
+      echo "Starting"
+      runcmd
+      ;;  
+    stop)
+      kill -9 `cat $PID`
+      echo >&2 "Not running"
+      ;;  
+    restart|reload)
+      cmd stop
+      cmd start
+      ;;  
+    *)  
+      echo >&2 "Usage: $0 <start|stop|restart>"
+      exit 1
+      ;;  
+    esac
+}
+
+runcmd () {
+  nohup bash -c "cd /home/deploy; node dixitWs.js > /var/log/dixitWs.log 2>&1" &
+  sleep 1
+  netstat -tupln | grep 700 | awk '{printf $NF}' | cut -d'/' -f1 > $PID
+}
+
+ARGS="$1 $2"
+cmd $ARGS
