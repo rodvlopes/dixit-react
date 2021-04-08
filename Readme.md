@@ -16,7 +16,7 @@ This is a study project and improvents are required in many ways.
 
 ## Demo
 
-http://moran.ga/dixit
+http://rodrigolop.es/dixit
 
 ## Dev Stack
 
