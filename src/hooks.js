@@ -22,7 +22,7 @@ export function useSyncServerState(
     const room = gameState.room;
     console.log("Opening ws connections", username, room, reconnectCount);
     ws.current = new WebSocket(
-      `ws://${host}:7000/?id=${username}&room=${room}`
+      `wss://${host}:7000/?id=${username}&room=${room}`
     );
 
     ws.current.onmessage = function ({ data }) {

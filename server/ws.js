@@ -1,7 +1,15 @@
 const WebSocket = require('ws')
-var url = require('url')
+const url = require('url')
+const https = require('https');
+const fs = require('fs');
+const PORT = 7000
 
-const wss = new WebSocket.Server({ port: 7000, host: '0.0.0.0' })
+const server = https.createServer({
+  cert: fs.readFileSync(process.env.SSL_CERT_PATH),
+  key: fs.readFileSync(process.env.SSL_KEY_PATH)
+})
+
+const wss = new WebSocket.Server({server})
 
 let DEBUG = false
 let INFO  = true
@@ -70,3 +78,5 @@ function info(msg, client={}) {
   INFO && console.log(now(), socket.remoteAddress, msg)
 }
 
+server.listen(PORT, '0.0.0.0');
+info(`Server started on port ${PORT} - ${process.env.SSL_CERT_PATH}`);

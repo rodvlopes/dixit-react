@@ -13,6 +13,10 @@ set -e
 export PID=/var/run/dixit-ws.pid
 export OLD_PID="$PID.oldbin"
 
+#need the SSL_CERT_PATH and SSL_KEY_PATH defined
+[ -f /etc/default/nginx ] && . /etc/default/nginx
+export SSL_CERT_PATH SSL_KEY_PATH
+
 sig () {
   test -s "$PID" && kill -$1 `cat "$PID"`
 }
