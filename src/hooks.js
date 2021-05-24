@@ -18,11 +18,12 @@ export function useSyncServerState(
   const reconnect = () => setReconnectCount((prev) => prev + 1);
 
   useEffect(() => {
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
     const host = window.location.host.replace(/:\d+/, "");
     const room = gameState.room;
     console.log("Opening ws connections", username, room, reconnectCount);
     ws.current = new WebSocket(
-      `wss://${host}:7000/?id=${username}&room=${room}`
+      `${protocol}://${host}:7000/?id=${username}&room=${room}`
     );
 
     ws.current.onmessage = function ({ data }) {

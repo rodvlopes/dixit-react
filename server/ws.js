@@ -1,13 +1,24 @@
 const WebSocket = require('ws')
 const url = require('url')
 const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const PORT = 7000
 
-const server = https.createServer({
-  cert: fs.readFileSync(process.env.SSL_CERT_PATH),
-  key: fs.readFileSync(process.env.SSL_KEY_PATH)
-})
+let server
+
+if (process.env.SSL_CERT_PATH) {
+  server = https.createServer({
+    cert: fs.readFileSync(process.env.SSL_CERT_PATH),
+    key: fs.readFileSync(process.env.SSL_KEY_PATH)
+  })
+  console.log('SSL_CERT_PATH', process.env.SSL_CERT_PATH)
+  console.log('SSL_KEY_PATH', process.env.SSL_KEY_PATH)
+}
+else {
+  server = http.createServer()
+  console.log('No SSL_CERT_PATH defined')
+}
 
 const wss = new WebSocket.Server({server})
 
@@ -79,4 +90,4 @@ function info(msg, client={}) {
 }
 
 server.listen(PORT, '0.0.0.0');
-info(`Server started on port ${PORT} - ${process.env.SSL_CERT_PATH}`);
+info(`Server started on port ${PORT}`);
