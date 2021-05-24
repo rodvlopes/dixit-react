@@ -1,0 +1,15 @@
+{
+  "name": "dixit-react-ws",
+  "version": "0.9.1",
+  "description": "A web version of Dixit board game implemented using React/Redux/Websockets (server)",
+  "main": "ws.js",
+  "scripts": {
+    "ws": "node ws.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^7.4.5"
+  }
+}
