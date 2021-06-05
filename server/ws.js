@@ -22,7 +22,7 @@ else {
 
 const wss = new WebSocket.Server({server})
 
-let DEBUG = false
+let DEBUG = true
 let INFO  = true
 
 let lastState = {}
@@ -43,6 +43,16 @@ wss.on('connection', function connection(ws, req) {
     if (isIdentification(message)) {
       ws.id = message.replace('id=', '')
       info('Client identified: %id', ws)
+      return
+    }
+
+    if (isEcho(message)) {
+      ws.send(message.replace('echo=', ''))
+      return
+    }
+    
+    if (isStats(message)) {
+      ws.send(JSON.stringify(lastState))
       return
     }
 
@@ -71,6 +81,14 @@ wss.on('connection', function connection(ws, req) {
 
 const isIdentification = (message) => {
   return message.indexOf('id=') === 0
+}
+
+const isEcho = (message) => {
+  return message.indexOf('echo=') === 0
+}
+
+const isStats = (message) => {
+  return message.indexOf('stats') === 0
 }
 
 const now = () => new Date().toISOString()
