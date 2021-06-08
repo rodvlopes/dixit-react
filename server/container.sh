@@ -9,7 +9,7 @@ OPTIONS
   -b, --build             build image
   --buildx86              build x86 image
   -d, --daemon            run as daemon
-  --deploy                deploy to the server
+  --deploy                deploy to the server and restart target container
   -h, --help              this help message
 
 Ex1: $0                   #run a new temporary interactive container

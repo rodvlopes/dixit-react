@@ -29,6 +29,7 @@ React, Redux, Webpack, Websockts and MaterialUI.
 * [ ] Sum score immediately after round is finished
 * [ ] Recover last username (use localStore)
 * [ ] Segregate componets/pages
+* [x] Resolve concurrency problem (two players send a new state at same time)
 * [x] SSL
 * [x] Deny new players after game has started
 * [x] Internationalize game texts

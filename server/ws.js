@@ -22,7 +22,7 @@ else {
 
 const wss = new WebSocket.Server({server})
 
-let DEBUG = true
+let DEBUG = false
 let INFO  = true
 
 let lastState = {}
@@ -47,23 +47,27 @@ wss.on('connection', function connection(ws, req) {
     }
 
     if (isEcho(message)) {
-      ws.send(message.replace('echo=', ''))
-      return
+      return ws.send(message.replace('echo=', ''))
     }
     
     if (isStats(message)) {
-      ws.send(JSON.stringify(lastState))
-      return
+      return ws.send(JSON.stringify(lastState))
     }
+
+    console.time('addStampToState')
+    if (!(message = addStampToState(message, lastState[room]))) {
+      return ws.send(JSON.stringify({
+        ...JSON.parse(lastState[room]),
+        error: 'ErrorInvalidTransition'
+      }))
+    }
+    console.timeEnd('addStampToState')
 
     lastState[room] = message
   
-    /* Broadcast to all clients from the same room except me */
+    /* Broadcast to all clients from the same room including me */
     wss.clients.forEach(client => {
-      if (client !== ws &&
-          client.room === ws.room &&
-          client.readyState === WebSocket.OPEN
-        ){
+      if (client.room === ws.room && client.readyState === WebSocket.OPEN){
         info(`Broadcasting to [%id] at room [%room]`, client)
         client.send(message)
       }
@@ -89,6 +93,17 @@ const isEcho = (message) => {
 
 const isStats = (message) => {
   return message.indexOf('stats') === 0
+}
+
+const addStampToState = (message, lastStateMessage) => {
+  const state = JSON.parse(message)
+  if (!lastStateMessage || state.timestamp === JSON.parse(lastStateMessage).timestamp) {
+    state.timestamp = Date.now()
+    return JSON.stringify(state)
+  }
+  else {
+    return null
+  }
 }
 
 const now = () => new Date().toISOString()

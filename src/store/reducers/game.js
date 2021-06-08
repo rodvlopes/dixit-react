@@ -16,6 +16,7 @@ import {
   SELECT_CARD,
   VOTE_CARD,
   NEXT_ROUND,
+  CLEAN_ERROR,
 } from "../actions";
 
 // class Player {
@@ -53,6 +54,7 @@ const initialGameState = {
   storyTellerSelected: false,
   listenersSelected: false,
   endOfMatch: false,
+  error: null,
 };
 
 function setRoom(state, { id }) {
@@ -173,6 +175,13 @@ function receiveGameStateFromServer(state, { gameState }) {
   };
 }
 
+function cleanError(state) {
+  return {
+    ...state,
+    error: null,
+  };
+}
+
 const game = createReducer(initialGameState, {
   [SET_ROOM]: setRoom,
   [ASSIGN_COLOR_TO_PLAYER]: assignColorToPlayer,
@@ -181,6 +190,7 @@ const game = createReducer(initialGameState, {
   [VOTE_CARD]: voteCard,
   [NEXT_ROUND]: nextRound,
   [RECEIVE_GAME_STATE_FROM_SERVER]: receiveGameStateFromServer,
+  [CLEAN_ERROR]: cleanError,
 });
 
 export default game;

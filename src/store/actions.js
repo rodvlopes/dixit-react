@@ -11,6 +11,7 @@ export const RECEIVE_GAME_STATE_FROM_SERVER = "RECEIVE_GAME_STATE_FROM_SERVER";
 export const SELECT_CARD = "SELECT_CARD";
 export const VOTE_CARD = "VOTE_CARD";
 export const NEXT_ROUND = "NEXT_ROUND";
+export const CLEAN_ERROR = "CLEAN_ERROR";
 
 /*
  * other constants
@@ -62,4 +63,9 @@ export function voteCard(card, voter) {
 export function nextRound() {
   console.log("nextRound");
   return { type: NEXT_ROUND };
+}
+
+export function cleanError() {
+  console.log("cleanError");
+  return { type: CLEAN_ERROR };
 }

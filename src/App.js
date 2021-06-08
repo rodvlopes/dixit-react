@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
 import Home from "./Home";
+import ErrorBanner from "./ErrorBanner";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -24,6 +25,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Home />
+        <ErrorBanner />
       </ThemeProvider>
     </StoreProvider>
   );

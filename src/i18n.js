@@ -70,7 +70,7 @@ setMessage(
 setMessage(
   "WaitOthersPlayersThenPressStart",
   "After everyone is present, press the button to start the game.",
-  "Depois que todos os jogadors estiverem presentes, pressione o botão para iniciar."
+  "Depois que todos os jogadores estiverem presentes, pressione o botão para iniciar."
 );
 
 setMessage("StartTheGame", "Start The Game", "Iniciar o Jogo");
@@ -110,3 +110,11 @@ setMessage(
 );
 
 setMessage("CardSetSelection", "Card Set Selection", "Conjunto de Cartas");
+
+/* ERROR MESSAGES */
+
+setMessage(
+  "ErrorInvalidTransition",
+  "Ops, something went wrong. Please, repeat your last movement.",
+  "Ops, algo deu errado. Por favor, repita seu último movimento."
+);
