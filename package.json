@@ -7,7 +7,7 @@
     "start": "webpack-dev-server -d --mode development --open --hot",
     "ws": "node server/ws.js",
     "build": "rm public/main*.js; webpack -p",
-    "deploy": "rsync -azh --delete --progress -e 'ssh -p 2222' ./public/* root@v.rodrigolop.es:/var/www/rodrigolop.es/dixit; echo 'To deploy the server: cd server; ./container.sh --deploy",
+    "deploy": "rsync -azh --delete --progress -e 'ssh -p 2223' ./public/* root@florida.rodrigolop.es:/var/www/rodrigolop.es/dixit; echo 'To deploy the server: cd server; ./container.sh --deploy'",
     "test": "jest",
     "test:watch": "jest --watch"
   },

@@ -63,6 +63,8 @@ wss.on('connection', function connection(ws, req) {
     }
     console.timeEnd('addStampToState')
 
+    message = cleanError(message)
+
     lastState[room] = message
   
     /* Broadcast to all clients from the same room including me */
@@ -93,6 +95,12 @@ const isEcho = (message) => {
 
 const isStats = (message) => {
   return message.indexOf('stats') === 0
+}
+
+const cleanError = (message) => {
+  return message.includes('"error"')
+    ? JSON.stringify({...JSON.parse(message), error: null})
+    : message 
 }
 
 const addStampToState = (message, lastStateMessage) => {
