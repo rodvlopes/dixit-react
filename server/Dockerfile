@@ -8,4 +8,6 @@ RUN npm install --production
 
 COPY . .
 
-CMD node ws.js
+RUN mkdir ./log
+
+CMD node ws.js | tee log/dixit-ws.log

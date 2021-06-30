@@ -68,6 +68,7 @@ fi
 [[ -n "$rund" ]] && \
   docker run -d --restart=always --name dixit-ws -p 7000:7000 \
     -v /root/.acme.sh/rodrigolop.es:/app/cert \
+    -v /var/log/dixit-ws:/app/log \
     --env SSL_CERT_PATH=/app/cert/fullchain.cer \
     --env SSL_KEY_PATH=/app/cert/rodrigolop.es.key \
     dixit-ws
